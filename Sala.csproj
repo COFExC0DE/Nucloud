@@ -43,11 +43,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller\GestionarClase.cs" />
+    <Compile Include="Controller\GestionarCliente.cs" />
+    <Compile Include="Controller\GestionarInstructor.cs" />
+    <Compile Include="Controller\GestionarServicio.cs" />
+    <Compile Include="Controller\IGestionar.cs" />
+    <Compile Include="Model\Clase.cs" />
+    <Compile Include="Model\Cliente.cs" />
+    <Compile Include="Model\Instructor.cs" />
+    <Compile Include="Model\Persona.cs" />
+    <Compile Include="Model\Servicio.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="View\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
