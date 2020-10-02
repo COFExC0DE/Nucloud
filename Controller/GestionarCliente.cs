@@ -16,10 +16,5 @@ namespace Sala.Controller {
         void aplicarPago(int id) { 
         
         }
-
-        public void addClientes(Cliente id) //esto es una prueba
-        {
-            Clientes.Add(id);//esto es una prueba
-        }
     }
 }

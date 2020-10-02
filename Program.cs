@@ -12,29 +12,24 @@ using Sala.Model;
 namespace Sala {
     class Program {
 
+        void agregarPersona(){
+
+        }
+
         static void Main(string[] args) {
-
-
             bool repetir = true;
-            List<Persona> customr = new List<Persona>(1000);
+            List<Persona> person = new List<Persona>(1000);
             List<Servicio> service = new List<Servicio>(1000);
+            List<Cliente> customr = new List<Cliente>(1000);
 
-            GestionarCliente g_Cliente = new GestionarCliente();// esto es de prueba
-            bool f = false;// esto es de prueba
-            bool t = true;// esto es de prueba
-            Cliente add_Cliente = new Cliente()// esto es de prueba
-            {
-                Moroso = t,// esto es de prueba
-                Activo = f// esto es de prueba
-            };// esto es de prueba
-
+            //GestionarCliente g_Cliente = new GestionarCliente();// esto es de prueba
             do
             {
 
                 Console.WriteLine("\n 1) Crear servicio para la sala");
                 Console.WriteLine("2) Ingresar un nuevo cliente de la sala");
                 Console.WriteLine("3) Ver los servicios de la sala");
-                Console.WriteLine("4) Ver miembros de la sala");
+                Console.WriteLine("4) Ver Clientes de la sala");
 
                 Console.WriteLine("Ingresar un valor (1, 2, 3...) que quiera realizar");
                 int valor_Tomado = Int32.Parse(Console.ReadLine());
@@ -53,12 +48,12 @@ namespace Sala {
                 }
                 if (valor_Tomado == 2)
                 {
+                    Console.WriteLine("\n Ingresar ID, Nombre, Telefono y Email (En ese orden)");
                     int I = Int32.Parse(Console.ReadLine());
                     string N = Console.ReadLine();
                     int T = Int32.Parse(Console.ReadLine());
                     string E = Console.ReadLine();
 
-                    Console.WriteLine("\n Ingresar ID, Nombre, Telefono y Email (En ese orden)");
                     Persona add_Persona = new Persona()
                     {   
                         ID = I,
@@ -66,19 +61,20 @@ namespace Sala {
                         Telefono = T,
                         Email = E
                     };
-                    add_Cliente.ID = I;// esto es de prueba
-                    g_Cliente.addClientes(add_Cliente);// esto es de prueba
+                    Cliente add_Cliente = new Cliente(add_Persona.ID);
+                    
 
+                    person.Add(add_Persona);
+                    customr.Add(add_Cliente);
 
-                    customr.Add(add_Persona);
                     Console.WriteLine("\n Se guardo el nuevo Cliente");
                 }
                 
                 if (valor_Tomado == 4)
                 {
-                    foreach (Persona c in customr)
+                    foreach (Cliente c in customr)
                     {
-                        Console.WriteLine("ID = {0}, Nombre = {1}, Telefono = {2}, email = {3}", c.ID, c.Nombre, c.Telefono, c.Email);
+                        Console.WriteLine("ID de Persona = {0}, Moroso = {1}, Activo = {2}", c.vIdPersona, c.Moroso, c.Activo);
                     }
                 }
                 if (valor_Tomado == 3)
