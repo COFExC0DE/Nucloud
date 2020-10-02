@@ -9,6 +9,10 @@ namespace Sala.Controller {
     class GestionarCliente {
         public List<Cliente> Clientes { get; set; }
 
+        public GestionarCliente() {
+            Clientes = new List<Cliente>();
+        }
+
         public void ingresarCliente(int id, string n, int t, string e) {
             Clientes.Add(new Cliente() { 
                 ID = id,

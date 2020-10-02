@@ -9,6 +9,10 @@ namespace Sala.Controller {
     class GestionarServicio {
         public List<Servicio> Servicios { get; set; }
 
+        public GestionarServicio() {
+            Servicios = new List<Servicio>();
+        }
+
         public void agregarServicio(int cod, string desc) {
             Servicios.Add(new Servicio() {
                 Codigo = cod,

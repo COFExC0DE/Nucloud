@@ -9,6 +9,10 @@ namespace Sala.Controller {
     class GestionarClase {
         List<Clase> Clases { get; set; }
 
+        public GestionarClase() {
+            Clases = new List<Clase>();
+        }
+
         public Clase obtenerClase(string cod) {
             return Clases.Find(x => x.Codigo == cod);
         }

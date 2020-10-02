@@ -8,6 +8,10 @@ namespace Sala.Model {
     class Instructor : Persona {
         public List<Servicio> Servicios { get; set; }
 
+        public Instructor() {
+            Servicios = new List<Servicio>();
+        }
+
     }
 
 

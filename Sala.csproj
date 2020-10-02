@@ -48,7 +48,6 @@
     <Compile Include="Controller\GestionarCliente.cs" />
     <Compile Include="Controller\GestionarInstructor.cs" />
     <Compile Include="Controller\GestionarServicio.cs" />
-    <Compile Include="Controller\IGestionar.cs" />
     <Compile Include="Model\Clase.cs" />
     <Compile Include="Model\Cliente.cs" />
     <Compile Include="Model\Instructor.cs" />

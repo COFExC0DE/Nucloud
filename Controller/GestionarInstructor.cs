@@ -9,6 +9,10 @@ namespace Sala.Controller {
     class GestionarInstructor {
         public List<Instructor> Instructores { get; set; }
 
+        public GestionarInstructor() {
+            Instructores = new List<Instructor>();
+        }
+
         internal void agregarInstructor(int i, string n, int t, string e) {
             Instructores.Add(new Instructor() {
                 ID = i,

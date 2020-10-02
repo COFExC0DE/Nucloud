@@ -71,7 +71,7 @@ namespace Sala {
 
                 if (valor_Tomado == 4) {
                     foreach (Cliente c in gCliente.Clientes) {
-                        Console.WriteLine("ID de Persona = {0}, Moroso = {1}, Activo = {2}", c.ID, c.moroso, c.activo);
+                        Console.WriteLine("{0} {1} Moroso = {2}, Activo = {3}", c.ID, c.Nombre, c.moroso, c.activo);
                     }
                 }
                 if (valor_Tomado == 5) {
