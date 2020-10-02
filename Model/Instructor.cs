@@ -5,15 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Sala.Model {
-    class Instructor {
-        public int idPersona;
+    class Instructor : Persona {
         public List<Servicio> Servicios { get; set; }
 
-        public Instructor(int pIdPersona)
-        {
-            idPersona = pIdPersona;
-        }
     }
 
-    
+
 }

@@ -18,10 +18,10 @@ namespace Sala {
 
         static void Main(string[] args) {
             bool repetir = true;
-            List<Persona> person = new List<Persona>(1000);
-            List<Servicio> service = new List<Servicio>(1000);
-            List<Cliente> customr = new List<Cliente>(1000);
-            List<Instructor> instruct = new List<Instructor>(1000);
+            GestionarClase gClase = new GestionarClase();
+            GestionarCliente gCliente = new GestionarCliente();
+            GestionarInstructor gInstructor = new GestionarInstructor();
+            GestionarServicio gServicio = new GestionarServicio();
 
             //GestionarCliente g_Cliente = new GestionarCliente();// esto es de prueba
             do
@@ -39,13 +39,11 @@ namespace Sala {
                 if (valor_Tomado == 1)
                 {
                     Console.WriteLine("\n Ingresar codigo y descripcion");
-                    Servicio add_Servicio = new Servicio();
 
-                    {
-                        int Codigo = Int32.Parse(Console.ReadLine());
-                        string Descripcion = Console.ReadLine();
-                    };
-                    service.Add(add_Servicio);
+                    int Codigo = Int32.Parse(Console.ReadLine());
+                    string Descripcion = Console.ReadLine();
+
+                    gServicio.agregarServicio(Codigo, Descripcion);
 
                     Console.WriteLine("\n Se guardo el nuevo servicio del GYM con exito");
                 }
@@ -57,27 +55,16 @@ namespace Sala {
                     int T = Int32.Parse(Console.ReadLine());
                     string E = Console.ReadLine();
 
-                    Persona add_Persona = new Persona()
-                    {   
-                        ID = I,
-                        Nombre = N,
-                        Telefono = T,
-                        Email = E
-                    };
-                    Cliente add_Cliente = new Cliente(add_Persona.ID);
-                    
-
-                    person.Add(add_Persona);
-                    customr.Add(add_Cliente);
+                    gCliente.ingresarCliente(I, N, T, E);
 
                     Console.WriteLine("\n Se guardo el nuevo Cliente");
                 }
                 
                 if (valor_Tomado == 4)
                 {
-                    foreach (Cliente c in customr)
+                    foreach (Cliente c in gCliente.Clientes)
                     {
-                        Console.WriteLine("ID de Persona = {0}, Moroso = {1}, Activo = {2}", c.vIdPersona, c.moroso, c.activo);
+                        Console.WriteLine("ID de Persona = {0}, Moroso = {1}, Activo = {2}", c.ID, c.moroso, c.activo);
                     }
                 }
                 if (valor_Tomado == 5)
@@ -87,14 +74,8 @@ namespace Sala {
                     string N = Console.ReadLine();
                     int T = Int32.Parse(Console.ReadLine());
                     string E = Console.ReadLine();
-                    Persona add_Persona = new Persona()
-                    {   
-                        ID = I,
-                        Nombre = N,
-                        Telefono = T,
-                        Email = E
-                    };
-                    Instructor add_Instructor = new Instructor(add_Persona.ID);
+
+                    gInstructor.agregarInstructor(I, N, T, E);
 
                 }
             } while (repetir == true);

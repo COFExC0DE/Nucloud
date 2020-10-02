@@ -9,7 +9,13 @@ namespace Sala.Controller {
     class GestionarServicio {
         List<Servicio> Servicios { get; set; }
 
-        Servicio obtenerServicio(int cod) {
+        public void agregarServicio(int cod, string desc) {
+            Servicios.Add(new Servicio() {
+                Codigo = cod,
+                Descripcion = desc
+            });
+        }
+        public Servicio obtenerServicio(int cod) {
             return Servicios.Find(x => x.Codigo == cod);
         }
     }

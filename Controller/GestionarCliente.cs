@@ -7,11 +7,20 @@ using Sala.Model;
 
 namespace Sala.Controller {
     class GestionarCliente {
-        List<Cliente> Clientes { get; set; }
+        public List<Cliente> Clientes { get; set; }
 
-        /*Cliente obtenerCliente(int id) {//Intentar esto :D public String obtenerCliente(Cliente id)
+        public void ingresarCliente(int id, string n, int t, string e) {
+            Clientes.Add(new Cliente() { 
+                ID = id,
+                Nombre = n,
+                Telefono = t,
+                Email = e
+            });
+        }
+
+        Cliente obtenerCliente(int id) {
             return Clientes.Find(x => x.ID == id);
-        }*/
+        }
 
         void aplicarPago(int id) { 
         

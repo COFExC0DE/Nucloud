@@ -9,7 +9,17 @@ namespace Sala.Controller {
     class GestionarInstructor {
         List<Instructor> Instructores { get; set; }
 
-        /*Instructor obtenerServicio(int cod) {
+        internal void agregarInstructor(int i, string n, int t, string e) {
+            Instructores.Add(new Instructor() {
+                ID = i,
+                Nombre = n,
+                Telefono = t,
+                Email = e
+            });
+            throw new NotImplementedException();
+        }
+
+        Instructor obtenerServicio(int cod) {
             return Instructores.Find(x => x.ID == cod);
         }
 
@@ -19,6 +29,6 @@ namespace Sala.Controller {
 
         void eliminarServicio(int codInstructor, int codServicio) {
             obtenerServicio(codInstructor).Servicios.RemoveAll(x => x.Codigo == codServicio);
-        }*/
+        }
     }
 }
