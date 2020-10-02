@@ -28,7 +28,7 @@ namespace Sala {
             //GestionarCliente g_Cliente = new GestionarCliente();// esto es de prueba
             do {
 
-                Console.WriteLine("\n 1) Crear servicio para la sala");
+                Console.WriteLine("1) Crear servicio para la sala");
                 Console.WriteLine("2) Ingresar un nuevo cliente de la sala");
                 Console.WriteLine("3) Ver los servicios de la sala");
                 Console.WriteLine("4) Ver Clientes de la sala");
@@ -38,22 +38,24 @@ namespace Sala {
                 Console.WriteLine("8) Eliminar servicio a Instructor");
                 Console.WriteLine("9) Agregar clase");
                 Console.WriteLine("10) Agregar estudiante a clase");
-                Console.WriteLine("10) Cambiar suplente de clase");
-                Console.WriteLine("Ingresar un valor (1, 2, 3...) que quiera realizar");
+                Console.WriteLine("11) Cambiar suplente de clase");
+                Console.WriteLine("12) Ver horario");
+                Console.WriteLine("13) Salir");
                 int valor_Tomado = Int32.Parse(Console.ReadLine());
-
+                Console.Clear();
                 if (valor_Tomado == 1) {
-                    Console.WriteLine("\n Ingresar codigo y descripcion");
+                    Console.WriteLine("Ingresar codigo y descripcion");
 
                     int Codigo = Int32.Parse(Console.ReadLine());
                     string Descripcion = Console.ReadLine();
 
                     gServicio.agregarServicio(Codigo, Descripcion);
 
-                    Console.WriteLine("\n Se guardo el nuevo servicio del GYM con exito");
+                    Console.WriteLine("Se guardo el nuevo servicio del GYM con exito");
                 }
+
                 if (valor_Tomado == 2) {
-                    Console.WriteLine("\n Ingresar ID, Nombre, Telefono y Email (En ese orden)");
+                    Console.WriteLine("Ingresar ID, Nombre, Telefono y Email (En ese orden)");
                     int I = Int32.Parse(Console.ReadLine());
                     string N = Console.ReadLine();
                     int T = Int32.Parse(Console.ReadLine());
@@ -61,8 +63,9 @@ namespace Sala {
 
                     gCliente.ingresarCliente(I, N, T, E);
 
-                    Console.WriteLine("\n Se guardo el nuevo Cliente");
+                    Console.WriteLine("Se guardo el nuevo Cliente");
                 }
+
                 if (valor_Tomado == 3) {
                     foreach (Servicio s in gServicio.Servicios) {
                         Console.WriteLine("{0} {1}", s.Codigo, s.Descripcion);
@@ -71,12 +74,13 @@ namespace Sala {
 
                 if (valor_Tomado == 4) {
                     foreach (Cliente c in gCliente.Clientes) {
-                        Console.WriteLine("{0} {1} Moroso = {2}, Activo = {3}", c.ID, c.Nombre, c.moroso, c.activo);
+                        Console.WriteLine("{0} {1} {2} {3}", c.ID, c.Nombre, c.activo ? "Activo" : "", c.moroso ? "Moroso" : "");
                     }
                 }
+
                 if (valor_Tomado == 5) {
 
-                    Console.WriteLine("\n Ingresar ID, Nombre, Telefono y Email (En ese orden) del Instructor");
+                    Console.WriteLine("Ingresar ID, Nombre, Telefono y Email (En ese orden) del Instructor");
                     int I = Int32.Parse(Console.ReadLine());
                     string N = Console.ReadLine();
                     int T = Int32.Parse(Console.ReadLine());
@@ -84,13 +88,15 @@ namespace Sala {
 
                     gInstructor.agregarInstructor(I, N, T, E);
                 }
+
                 if (valor_Tomado == 6) {
                     foreach (Instructor c in gInstructor.Instructores) {
                         Console.WriteLine("{0} {1}", c.ID, c.Nombre);
                     }
                 }
+
                 if (valor_Tomado == 7) {
-                    Console.WriteLine("\n Ingresar id del instructor y codigo del servicio (En ese orden) que desea agregar");
+                    Console.WriteLine("Ingresar id del instructor y codigo del servicio (En ese orden) que desea agregar");
                     int id = Int32.Parse(Console.ReadLine());
                     int cod = Int32.Parse(Console.ReadLine());
                     if (gInstructor.obtenerInstructor(id) != null && gServicio.obtenerServicio(cod) != null) {
@@ -99,8 +105,9 @@ namespace Sala {
                         Console.WriteLine("Servicio o instructor no existen");
                     }
                 }
+
                 if (valor_Tomado == 8) {
-                    Console.WriteLine("\n Ingresar id del instructor y codigo del servicio (En ese orden) que desea eliminar");
+                    Console.WriteLine("Ingresar id del instructor y codigo del servicio (En ese orden) que desea eliminar");
                     int id = Int32.Parse(Console.ReadLine());
                     int cod = Int32.Parse(Console.ReadLine());
                     if (gInstructor.obtenerInstructor(id) != null && gServicio.obtenerServicio(cod) != null) {
@@ -109,28 +116,29 @@ namespace Sala {
                         Console.WriteLine("Servicio o instructor no existen");
                     }
                 }
+
                 if (valor_Tomado == 9) {
-                    Console.WriteLine("\n Ingrese codigo de clase");
+                    Console.WriteLine("Ingrese codigo de clase");
                     string cod = Console.ReadLine();
 
-                    Console.WriteLine("\n Ingrese cupo de clase");
+                    Console.WriteLine("Ingrese cupo de clase");
                     int cupo = Int32.Parse(Console.ReadLine());
 
-                    Console.WriteLine("\n Ingrese id de Instructor");
+                    Console.WriteLine("Ingrese id de Instructor");
                     int idIns = Int32.Parse(Console.ReadLine());
 
-                    Console.WriteLine("\n Ingrese id de Suplente");
+                    Console.WriteLine("Ingrese id de Suplente");
                     int idSup = Int32.Parse(Console.ReadLine());
 
-                    Console.WriteLine("\n Ingrese cod de Servicio");
+                    Console.WriteLine("Ingrese cod de Servicio");
                     int codSer = Int32.Parse(Console.ReadLine());
 
-                    Console.WriteLine("\n Ingrese duracion de la clase");
+                    Console.WriteLine("Ingrese duracion de la clase");
                     int duracion = Int32.Parse(Console.ReadLine());
                     Dia dia;
                     while (true) {
                         int input = Int32.Parse(Console.ReadLine());
-                        Console.WriteLine("\n Elegir dia\n1.Lunes\n2.Martes\n3.Miercoles\n4.Jueves\n5.Viernes\n6.Sabado\n7.Domingo");
+                        Console.WriteLine("Elegir dia\n1.Lunes\n2.Martes\n3.Miercoles\n4.Jueves\n5.Viernes\n6.Sabado\n7.Domingo");
 
                         if (input > 0 && input < 8) {
                             dia = (Dia)input;
@@ -138,7 +146,7 @@ namespace Sala {
                         }
                     }
 
-                    Console.WriteLine("\n Ingrese hora de la clase (Numero del 0 al 23)");
+                    Console.WriteLine("Ingrese hora de la clase (Numero del 0 al 23)");
                     int hora = Int32.Parse(Console.ReadLine());
                     if (gInstructor.obtenerInstructor(idIns) != null && gInstructor.obtenerInstructor(idSup) != null && gServicio.obtenerServicio(codSer) != null) { 
                         gClase.agregarClase(cod, cupo, gInstructor.obtenerInstructor(idIns), gInstructor.obtenerInstructor(idSup), gServicio.obtenerServicio(codSer), duracion, dia, hora);
@@ -146,10 +154,10 @@ namespace Sala {
                 }
 
                 if (valor_Tomado == 10) {
-                    Console.WriteLine("\n Ingrese id de estudiante");
+                    Console.WriteLine("Ingrese id de estudiante");
                     int id = Int32.Parse(Console.ReadLine());
 
-                    Console.WriteLine("\n Ingrese codigo de clase");
+                    Console.WriteLine("Ingrese codigo de clase");
                     string cod = Console.ReadLine();
 
                     if (gClase.obtenerClase(cod) != null && gCliente.obtenerCliente(id) != null) {
@@ -160,10 +168,10 @@ namespace Sala {
                 }
 
                 if (valor_Tomado == 11) {
-                    Console.WriteLine("\n Ingrese id de suplente");
+                    Console.WriteLine("Ingrese id de suplente");
                     int id = Int32.Parse(Console.ReadLine());
 
-                    Console.WriteLine("\n Ingrese codigo de clase");
+                    Console.WriteLine("Ingrese codigo de clase");
                     string cod = Console.ReadLine();
 
                     if (gClase.obtenerClase(cod) != null && gInstructor.obtenerInstructor(id) != null) {
@@ -173,7 +181,20 @@ namespace Sala {
                     }
                 }
 
-            } while (repetir == true);
+                if (valor_Tomado == 12) {
+                    foreach (Clase clase in gClase.Clases) {
+                        gClase.printClase(clase);
+                    }
+                }
+
+                if (valor_Tomado == 13) {
+                    repetir = false;
+                }
+
+                Console.WriteLine("\nPresione cualquier tecla para continuar");
+                Console.ReadLine();            
+                Console.Clear();
+            } while (repetir);
         }
         static Persona generaPersona() {
             Console.WriteLine("\n Ingresar ID, Nombre, Telefono y Email (En ese orden)");

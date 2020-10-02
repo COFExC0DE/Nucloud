@@ -7,7 +7,7 @@ using Sala.Model;
 
 namespace Sala.Controller {
     class GestionarClase {
-        List<Clase> Clases { get; set; }
+        public List<Clase> Clases { get; set; }
 
         public GestionarClase() {
             Clases = new List<Clase>();
@@ -36,6 +36,11 @@ namespace Sala.Controller {
                 Hora = hora,
                 Dia = dia
             });
+        }
+
+        internal void printClase(Clase clase) {
+            Console.WriteLine("{0} - {1}", clase.Codigo, clase.Servicio.Descripcion);
+            Console.WriteLine("{0} - {1} horas - Duracion {2}", nameof(clase.Dia), clase.Hora, clase.Duracion);
         }
     }
 }
