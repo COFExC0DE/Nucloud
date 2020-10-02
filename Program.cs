@@ -102,7 +102,7 @@ namespace Sala {
                     int id = Int32.Parse(Console.ReadLine());
                     int cod = Int32.Parse(Console.ReadLine());
                     if (gInstructor.obtenerInstructor(id) != null && gServicio.obtenerServicio(cod) != null) {
-                        gInstructor.agregarServicio(id, gServicio.eliminarServicio(cod));
+                        gInstructor.eliminarServicio(id, cod);
                     } else {
                         Console.WriteLine("Servicio o instructor no existen");
                     }
