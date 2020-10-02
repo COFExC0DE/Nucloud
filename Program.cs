@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Sala.Controller;
 using Sala.Model;
-using Sala.Controller;
 
 namespace Sala {
     class Program {
