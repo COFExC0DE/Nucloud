@@ -9,7 +9,7 @@ namespace Sala.Controller {
     class GestionarInstructor {
         List<Instructor> Instructores { get; set; }
 
-        Instructor obtenerServicio(int cod) {
+        /*Instructor obtenerServicio(int cod) {
             return Instructores.Find(x => x.ID == cod);
         }
 
@@ -19,6 +19,6 @@ namespace Sala.Controller {
 
         void eliminarServicio(int codInstructor, int codServicio) {
             obtenerServicio(codInstructor).Servicios.RemoveAll(x => x.Codigo == codServicio);
-        }
+        }*/
     }
 }

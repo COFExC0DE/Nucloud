@@ -21,6 +21,7 @@ namespace Sala {
             List<Persona> person = new List<Persona>(1000);
             List<Servicio> service = new List<Servicio>(1000);
             List<Cliente> customr = new List<Cliente>(1000);
+            List<Instructor> instruct = new List<Instructor>(1000);
 
             //GestionarCliente g_Cliente = new GestionarCliente();// esto es de prueba
             do
@@ -30,6 +31,7 @@ namespace Sala {
                 Console.WriteLine("2) Ingresar un nuevo cliente de la sala");
                 Console.WriteLine("3) Ver los servicios de la sala");
                 Console.WriteLine("4) Ver Clientes de la sala");
+                Console.WriteLine("4) Ingresar un Nuevo Instructor");
 
                 Console.WriteLine("Ingresar un valor (1, 2, 3...) que quiera realizar");
                 int valor_Tomado = Int32.Parse(Console.ReadLine());
@@ -37,10 +39,11 @@ namespace Sala {
                 if (valor_Tomado == 1)
                 {
                     Console.WriteLine("\n Ingresar codigo y descripcion");
-                    Servicio add_Servicio = new Servicio()
+                    Servicio add_Servicio = new Servicio();
+
                     {
-                        Codigo = Int32.Parse(Console.ReadLine()),
-                        Descripcion = Console.ReadLine()
+                        int Codigo = Int32.Parse(Console.ReadLine());
+                        string Descripcion = Console.ReadLine();
                     };
                     service.Add(add_Servicio);
 
@@ -74,15 +77,25 @@ namespace Sala {
                 {
                     foreach (Cliente c in customr)
                     {
-                        Console.WriteLine("ID de Persona = {0}, Moroso = {1}, Activo = {2}", c.vIdPersona, c.Moroso, c.Activo);
+                        Console.WriteLine("ID de Persona = {0}, Moroso = {1}, Activo = {2}", c.vIdPersona, c.moroso, c.activo);
                     }
                 }
-                if (valor_Tomado == 3)
+                if (valor_Tomado == 5)
                 {
-                    foreach (Servicio s in service)
-                    {
-                        Console.WriteLine("Codigo = {0}, Descripcion = {1}", s.Codigo, s.Descripcion);
-                    }
+                    Console.WriteLine("\n Ingresar ID, Nombre, Telefono y Email (En ese orden) del Instructor");
+                    int I = Int32.Parse(Console.ReadLine());
+                    string N = Console.ReadLine();
+                    int T = Int32.Parse(Console.ReadLine());
+                    string E = Console.ReadLine();
+                    Persona add_Persona = new Persona()
+                    {   
+                        ID = I,
+                        Nombre = N,
+                        Telefono = T,
+                        Email = E
+                    };
+                    Instructor add_Instructor = new Instructor(add_Persona.ID);
+
                 }
             } while (repetir == true);
         }
