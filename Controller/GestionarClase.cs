@@ -20,5 +20,19 @@ namespace Sala.Controller {
         void agregarEstudiante(Clase clase, Cliente cliente) {
             clase.Estudiantes.Add(cliente);
         }
+
+        internal void agregarClase(string cod, int cupo, Instructor instructor, Instructor suplente, Servicio servicio, int duracion, Dia dia, int hora) {
+            Clases.Add(new Clase() {
+                Codigo = cod,
+                Cupo = cupo,
+                Instructor = instructor,
+                Suplente = suplente,
+                Servicio = servicio,
+                Duracion = duracion,
+                Hora = hora,
+                Dia = dia
+            });
+            throw new NotImplementedException();
+        }
     }
 }

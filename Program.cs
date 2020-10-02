@@ -35,8 +35,8 @@ namespace Sala {
                 Console.WriteLine("5) Ingresar un Nuevo Instructor");
                 Console.WriteLine("6) Ver Instructores");
                 Console.WriteLine("7) Agregar servicio a Instructor");
-                Console.WriteLine("7) Eliminar servicio a Instructor");
-
+                Console.WriteLine("8) Eliminar servicio a Instructor");
+                Console.WriteLine("9) Agregar clase");
                 Console.WriteLine("Ingresar un valor (1, 2, 3...) que quiera realizar");
                 int valor_Tomado = Int32.Parse(Console.ReadLine());
 
@@ -105,6 +105,41 @@ namespace Sala {
                         gInstructor.eliminarServicio(id, cod);
                     } else {
                         Console.WriteLine("Servicio o instructor no existen");
+                    }
+                }
+                if (valor_Tomado == 9) {
+                    Console.WriteLine("\n Ingrese codigo de clase");
+                    string cod = Console.ReadLine();
+
+                    Console.WriteLine("\n Ingrese cupo de clase");
+                    int cupo = Int32.Parse(Console.ReadLine());
+
+                    Console.WriteLine("\n Ingrese id de Instructor");
+                    int idIns = Int32.Parse(Console.ReadLine());
+
+                    Console.WriteLine("\n Ingrese id de Suplente");
+                    int idSup = Int32.Parse(Console.ReadLine());
+
+                    Console.WriteLine("\n Ingrese cod de Servicio");
+                    int codSer = Int32.Parse(Console.ReadLine());
+
+                    Console.WriteLine("\n Ingrese duracion de la clase");
+                    int duracion = Int32.Parse(Console.ReadLine());
+                    Dia dia;
+                    while (true) {
+                        int input = Int32.Parse(Console.ReadLine());
+                        Console.WriteLine("\n Elegir dia\n1.Lunes\n2.Martes\n3.Miercoles\n4.Jueves\n5.Viernes\n6.Sabado\n7.Domingo");
+
+                        if (input > 0 && input < 8) {
+                            dia = (Dia)input;
+                            break;
+                        }
+                    }
+
+                    Console.WriteLine("\n Ingrese hora de la clase (Numero del 0 al 23)");
+                    int hora = Int32.Parse(Console.ReadLine());
+                    if (gInstructor.obtenerInstructor(idIns) != null && gInstructor.obtenerInstructor(idSup) != null && gServicio.obtenerServicio(codSer) != null) { 
+                        gClase.agregarClase(cod, cupo, gInstructor.obtenerInstructor(idIns), gInstructor.obtenerInstructor(idSup), gServicio.obtenerServicio(codSer), duracion, dia, hora);
                     }
                 }
             } while (repetir == true);

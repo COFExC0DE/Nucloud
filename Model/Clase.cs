@@ -16,5 +16,7 @@ namespace Sala.Model {
         public Servicio Servicio { get; set; }
         public List<Cliente> Estudiantes { get; set; }
         public Dia Dia { get; set; }
+        public int Duracion { get; set; }
+        public int Hora { get; set; }
     }
 }
