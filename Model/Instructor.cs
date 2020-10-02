@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 namespace Sala.Model {
     class Instructor : Persona {
         public List<Servicio> Servicios { get; set; }
+        public bool activo {get; set;}
 
         public Instructor() {
             Servicios = new List<Servicio>();
+            activo = true;
         }
 
     }

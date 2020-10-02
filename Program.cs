@@ -41,6 +41,9 @@ namespace Sala {
                 Console.WriteLine("11) Cambiar suplente de clase");
                 Console.WriteLine("12) Ver horario");
                 Console.WriteLine("13) Salir");
+
+                Console.WriteLine("Ingresar un valor (1, 2, 3...) que quiera realizar");
+
                 int valor_Tomado = Int32.Parse(Console.ReadLine());
                 Console.Clear();
                 if (valor_Tomado == 1) {
@@ -90,9 +93,22 @@ namespace Sala {
                 }
 
                 if (valor_Tomado == 6) {
-                    foreach (Instructor c in gInstructor.Instructores) {
-                        Console.WriteLine("{0} {1}", c.ID, c.Nombre);
+                    foreach (Instructor c in gInstructor.Instructores) if (c.activo != false) {
+                        Console.WriteLine("{0} {1} {2}", c.ID, c.Nombre, c.activo);
                     }
+
+                    Console.WriteLine("\n\nDigite 1 si desea desactivar un instructor, cualquier otra tecla para continuar.");
+                    int opt = Int32.Parse(Console.ReadLine());
+                    if(opt == 1){
+                        Console.WriteLine("\n\nDigite el ID del instructor que desea deshabilitar.");
+                        int id = Int32.Parse(Console.ReadLine());
+                        if(gInstructor.obtenerInstructor(id) != null){
+                            gInstructor.desactivarInstructor(id);
+                        }else{
+                            Console.WriteLine("El cliente que desea desactivar no existe!");
+                        }
+                    }
+                    
                 }
 
                 if (valor_Tomado == 7) {
@@ -180,7 +196,6 @@ namespace Sala {
                         Console.WriteLine("No existe el instructor o clase");
                     }
                 }
-
                 if (valor_Tomado == 12) {
                     foreach (Clase clase in gClase.Clases) {
                         gClase.printClase(clase);
@@ -194,7 +209,8 @@ namespace Sala {
                 Console.WriteLine("\nPresione cualquier tecla para continuar");
                 Console.ReadLine();            
                 Console.Clear();
-            } while (repetir);
+
+            } while (repetir == true);
         }
         static Persona generaPersona() {
             Console.WriteLine("\n Ingresar ID, Nombre, Telefono y Email (En ese orden)");

@@ -20,11 +20,18 @@ namespace Sala.Controller {
                 Telefono = t,
                 Email = e
             });
-            throw new NotImplementedException();
         }
 
         public Instructor obtenerInstructor(int cod) {
-            return Instructores.Find(x => x.ID == cod);
+            return Instructores.Find(x => (x.ID == cod) && (x.activo == true));
+        }
+
+        public List<Instructor> obtenerTodosInstructor(){
+            return Instructores;
+        }
+
+        public void desactivarInstructor(int pId){
+            obtenerInstructor(pId).activo = false;
         }
 
         public void agregarServicio(int codInstructor, Servicio servicio) {
