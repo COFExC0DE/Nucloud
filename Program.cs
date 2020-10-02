@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Sala.Controller;
 using Sala.Model;
+using Sala.Controller;
 
 namespace Sala {
     class Program {
@@ -18,6 +19,7 @@ namespace Sala {
 
         static void Main(string[] args) {
             bool repetir = true;
+
             GestionarClase gClase = new GestionarClase();
             GestionarCliente gCliente = new GestionarCliente();
             GestionarInstructor gInstructor = new GestionarInstructor();
@@ -69,6 +71,7 @@ namespace Sala {
                 }
                 if (valor_Tomado == 5)
                 {
+
                     Console.WriteLine("\n Ingresar ID, Nombre, Telefono y Email (En ese orden) del Instructor");
                     int I = Int32.Parse(Console.ReadLine());
                     string N = Console.ReadLine();
@@ -76,9 +79,24 @@ namespace Sala {
                     string E = Console.ReadLine();
 
                     gInstructor.agregarInstructor(I, N, T, E);
-
                 }
             } while (repetir == true);
+        }
+        static Persona generaPersona() {
+            Console.WriteLine("\n Ingresar ID, Nombre, Telefono y Email (En ese orden)");
+            int I = Int32.Parse(Console.ReadLine());
+            string N = Console.ReadLine();
+            int T = Int32.Parse(Console.ReadLine());
+            string E = Console.ReadLine();
+
+            Persona add_Persona = new Persona()
+            {
+                ID = I,
+                Nombre = N,
+                Telefono = T,
+                Email = E
+            };
+            return add_Persona;
         }
     }
 }
