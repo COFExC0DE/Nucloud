@@ -18,7 +18,7 @@ namespace Sala.Controller {
             });
         }
 
-        Cliente obtenerCliente(int id) {
+        public Cliente obtenerCliente(int id) {
             return Clientes.Find(x => x.ID == id);
         }
 

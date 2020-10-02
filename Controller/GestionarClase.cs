@@ -9,15 +9,15 @@ namespace Sala.Controller {
     class GestionarClase {
         List<Clase> Clases { get; set; }
 
-        Clase obtenerServicio(string cod) {
+        public Clase obtenerClase(string cod) {
             return Clases.Find(x => x.Codigo == cod);
         }
 
-        void cambiarSuplente(Clase clase, Instructor instructor) {
+        public void cambiarSuplente(Clase clase, Instructor instructor) {
             clase.Instructor = instructor;
         }
 
-        void agregarEstudiante(Clase clase, Cliente cliente) {
+        public void agregarEstudiante(Clase clase, Cliente cliente) {
             clase.Estudiantes.Add(cliente);
         }
 
@@ -32,7 +32,6 @@ namespace Sala.Controller {
                 Hora = hora,
                 Dia = dia
             });
-            throw new NotImplementedException();
         }
     }
 }

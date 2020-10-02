@@ -37,6 +37,8 @@ namespace Sala {
                 Console.WriteLine("7) Agregar servicio a Instructor");
                 Console.WriteLine("8) Eliminar servicio a Instructor");
                 Console.WriteLine("9) Agregar clase");
+                Console.WriteLine("10) Agregar estudiante a clase");
+                Console.WriteLine("10) Cambiar suplente de clase");
                 Console.WriteLine("Ingresar un valor (1, 2, 3...) que quiera realizar");
                 int valor_Tomado = Int32.Parse(Console.ReadLine());
 
@@ -142,6 +144,35 @@ namespace Sala {
                         gClase.agregarClase(cod, cupo, gInstructor.obtenerInstructor(idIns), gInstructor.obtenerInstructor(idSup), gServicio.obtenerServicio(codSer), duracion, dia, hora);
                     }
                 }
+
+                if (valor_Tomado == 10) {
+                    Console.WriteLine("\n Ingrese id de estudiante");
+                    int id = Int32.Parse(Console.ReadLine());
+
+                    Console.WriteLine("\n Ingrese codigo de clase");
+                    string cod = Console.ReadLine();
+
+                    if (gClase.obtenerClase(cod) != null && gCliente.obtenerCliente(id) != null) {
+                        gClase.agregarEstudiante(gClase.obtenerClase(cod), gCliente.obtenerCliente(id));
+                    } else {
+                        Console.WriteLine("No existe el instructor o clase");
+                    }
+                }
+
+                if (valor_Tomado == 11) {
+                    Console.WriteLine("\n Ingrese id de suplente");
+                    int id = Int32.Parse(Console.ReadLine());
+
+                    Console.WriteLine("\n Ingrese codigo de clase");
+                    string cod = Console.ReadLine();
+
+                    if (gClase.obtenerClase(cod) != null && gInstructor.obtenerInstructor(id) != null) {
+                        gClase.cambiarSuplente(gClase.obtenerClase(cod), gInstructor.obtenerInstructor(id));
+                    } else {
+                        Console.WriteLine("No existe el instructor o clase");
+                    }
+                }
+
             } while (repetir == true);
         }
         static Persona generaPersona() {
