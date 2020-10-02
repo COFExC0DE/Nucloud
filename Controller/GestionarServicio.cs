@@ -7,7 +7,7 @@ using Sala.Model;
 
 namespace Sala.Controller {
     class GestionarServicio {
-        List<Servicio> Servicios { get; set; }
+        public List<Servicio> Servicios { get; set; }
 
         public void agregarServicio(int cod, string desc) {
             Servicios.Add(new Servicio() {
@@ -15,6 +15,7 @@ namespace Sala.Controller {
                 Descripcion = desc
             });
         }
+
         public Servicio obtenerServicio(int cod) {
             return Servicios.Find(x => x.Codigo == cod);
         }

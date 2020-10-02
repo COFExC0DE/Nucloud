@@ -7,7 +7,7 @@ using Sala.Model;
 
 namespace Sala.Controller {
     class GestionarInstructor {
-        List<Instructor> Instructores { get; set; }
+        public List<Instructor> Instructores { get; set; }
 
         internal void agregarInstructor(int i, string n, int t, string e) {
             Instructores.Add(new Instructor() {
@@ -19,16 +19,16 @@ namespace Sala.Controller {
             throw new NotImplementedException();
         }
 
-        Instructor obtenerServicio(int cod) {
+        public Instructor obtenerInstructor(int cod) {
             return Instructores.Find(x => x.ID == cod);
         }
 
-        void agregarServicio(int codInstructor, Servicio servicio) {
-            obtenerServicio(codInstructor).Servicios.Add(servicio);
+        public void agregarServicio(int codInstructor, Servicio servicio) {
+            obtenerInstructor(codInstructor).Servicios.Add(servicio);
         }
 
-        void eliminarServicio(int codInstructor, int codServicio) {
-            obtenerServicio(codInstructor).Servicios.RemoveAll(x => x.Codigo == codServicio);
+        public void eliminarServicio(int codInstructor, int codServicio) {
+            obtenerInstructor(codInstructor).Servicios.RemoveAll(x => x.Codigo == codServicio);
         }
     }
 }
