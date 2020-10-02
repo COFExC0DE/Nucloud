@@ -7,4 +7,5 @@ using System.Threading.Tasks;
 namespace Sala.Controller {
     interface IGestionar {
     }
+
 }

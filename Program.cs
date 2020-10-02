@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Sala.Controller;
 using Sala.Model;
+using Sala.Controller;
 
 namespace Sala {
     class Program {
@@ -22,6 +23,7 @@ namespace Sala {
             List<Servicio> service = new List<Servicio>(1000);
             List<Cliente> customr = new List<Cliente>(1000);
             List<Instructor> instruct = new List<Instructor>(1000);
+            IGestionar gestor;
 
             //GestionarCliente g_Cliente = new GestionarCliente();// esto es de prueba
             do
@@ -51,19 +53,7 @@ namespace Sala {
                 }
                 if (valor_Tomado == 2)
                 {
-                    Console.WriteLine("\n Ingresar ID, Nombre, Telefono y Email (En ese orden)");
-                    int I = Int32.Parse(Console.ReadLine());
-                    string N = Console.ReadLine();
-                    int T = Int32.Parse(Console.ReadLine());
-                    string E = Console.ReadLine();
-
-                    Persona add_Persona = new Persona()
-                    {   
-                        ID = I,
-                        Nombre = N,
-                        Telefono = T,
-                        Email = E
-                    };
+                    Persona add_Persona = generaPersona();
                     Cliente add_Cliente = new Cliente(add_Persona.ID);
                     
 
@@ -82,22 +72,27 @@ namespace Sala {
                 }
                 if (valor_Tomado == 5)
                 {
-                    Console.WriteLine("\n Ingresar ID, Nombre, Telefono y Email (En ese orden) del Instructor");
-                    int I = Int32.Parse(Console.ReadLine());
-                    string N = Console.ReadLine();
-                    int T = Int32.Parse(Console.ReadLine());
-                    string E = Console.ReadLine();
-                    Persona add_Persona = new Persona()
-                    {   
-                        ID = I,
-                        Nombre = N,
-                        Telefono = T,
-                        Email = E
-                    };
+                    Persona add_Persona = generaPersona();
                     Instructor add_Instructor = new Instructor(add_Persona.ID);
 
                 }
             } while (repetir == true);
+        }
+        static Persona generaPersona() {
+            Console.WriteLine("\n Ingresar ID, Nombre, Telefono y Email (En ese orden)");
+            int I = Int32.Parse(Console.ReadLine());
+            string N = Console.ReadLine();
+            int T = Int32.Parse(Console.ReadLine());
+            string E = Console.ReadLine();
+
+            Persona add_Persona = new Persona()
+            {
+                ID = I,
+                Nombre = N,
+                Telefono = T,
+                Email = E
+            };
+            return add_Persona;
         }
     }
 }
