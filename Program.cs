@@ -19,12 +19,11 @@ namespace Sala {
         static void Main(string[] args) {
             bool repetir = true;
 
-            GestionarClase gClase = new GestionarClase();
-            GestionarCliente gCliente = new GestionarCliente();
-            GestionarInstructor gInstructor = new GestionarInstructor();
-            GestionarServicio gServicio = new GestionarServicio();
+            EncargadoClase gClase = new EncargadoClase();
+            EncargadoCliente gCliente = new EncargadoCliente();
+            EncargadoInstructor gInstructor = new EncargadoInstructor();
+            EncargadoServicio gServicio = new EncargadoServicio();
 
-            //GestionarCliente g_Cliente = new GestionarCliente();// esto es de prueba
             do {
 
                 Console.WriteLine("1) Crear servicio para la sala");
@@ -211,20 +210,6 @@ namespace Sala {
 
             } while (repetir == true);
         }
-        static Persona generaPersona() {
-            Console.WriteLine("\n Ingresar ID, Nombre, Telefono y Email (En ese orden)");
-            int I = Int32.Parse(Console.ReadLine());
-            string N = Console.ReadLine();
-            int T = Int32.Parse(Console.ReadLine());
-            string E = Console.ReadLine();
-
-            Persona add_Persona = new Persona() {
-                ID = I,
-                Nombre = N,
-                Telefono = T,
-                Email = E
-            };
-            return add_Persona;
-        }
+        
     }
 }
