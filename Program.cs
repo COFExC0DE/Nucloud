@@ -96,16 +96,19 @@ namespace Sala {
                     }
 
                     Console.WriteLine("\n\nDigite 1 si desea desactivar un instructor, cualquier otra tecla para continuar.");
-                    int opt = Int32.Parse(Console.ReadLine());
-                    if(opt == 1){
-                        Console.WriteLine("\n\nDigite el ID del instructor que desea deshabilitar.");
-                        int id = Int32.Parse(Console.ReadLine());
-                        if(gInstructor.obtenerInstructor(id) != null){
-                            gInstructor.desactivarInstructor(id);
-                        }else{
-                            Console.WriteLine("El cliente que desea desactivar no existe!");
+                    string option = Console.ReadLine();
+                    if (int.TryParse(option, out int n)) {
+                        if (n == 1) {
+                            Console.WriteLine("\n\nDigite el ID del instructor que desea deshabilitar.");
+                            int id = Int32.Parse(Console.ReadLine());
+                            if (gInstructor.obtenerInstructor(id) != null) {
+                                gInstructor.desactivarInstructor(id);
+                            } else {
+                                Console.WriteLine("El cliente que desea desactivar no existe!");
+                            }
                         }
                     }
+                    
                     
                 }
 

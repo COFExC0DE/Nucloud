@@ -44,10 +44,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controller\GestionarClase.cs" />
-    <Compile Include="Controller\GestionarCliente.cs" />
-    <Compile Include="Controller\GestionarInstructor.cs" />
-    <Compile Include="Controller\GestionarServicio.cs" />
+    <Compile Include="Controller\EncargadoClase.cs" />
+    <Compile Include="Controller\EncargadoCliente.cs" />
+    <Compile Include="Controller\EncargadoInstructor.cs" />
+    <Compile Include="Controller\EncargadoServicio.cs" />
     <Compile Include="Model\Clase.cs" />
     <Compile Include="Model\Cliente.cs" />
     <Compile Include="Model\Instructor.cs" />
