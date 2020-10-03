@@ -154,8 +154,8 @@ namespace Sala {
                     int duracion = Int32.Parse(Console.ReadLine());
                     Dia dia;
                     while (true) {
-                        int input = Int32.Parse(Console.ReadLine());
                         Console.WriteLine("Elegir dia\n1.Lunes\n2.Martes\n3.Miercoles\n4.Jueves\n5.Viernes\n6.Sabado\n7.Domingo");
+                        int input = Int32.Parse(Console.ReadLine());
 
                         if (input > 0 && input < 8) {
                             dia = (Dia)input;
@@ -213,6 +213,5 @@ namespace Sala {
 
             } while (repetir == true);
         }
-        
     }
 }
