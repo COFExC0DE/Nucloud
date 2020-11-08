@@ -21,15 +21,26 @@ namespace NuCloudWeb.Controllers {
 
         [HttpGet]
         [Route("Group/AddMember/{cod:int}")]
-        public IActionResult AddMember([FromRoute] int cod) {
-            return View();
+        public async Task<ActionResult> AddMember([FromRoute] int cod) {
+            List<Member> t = await DB.Instance.GetMembers();
+            Chanchito chanchito = new Chanchito() { 
+                Members = t,
+                Cod = cod
+            };
+            return View(chanchito);
         }
 
         [HttpPost]
         [Route("Group/AddMember/{cod:int}")]
-        public IActionResult AddMember([FromRoute] int cod, string ced) {
-            DB.Instance.AddMemberToGroup(cod, ced);
-            return View();
+        public IActionResult AddMember([FromRoute] int cod, Chanchito c) {
+            DB.Instance.AddMemberToGroup(cod, c.Ced);
+            return Redirect(Request.Headers["Referer"].ToString());
         }
+    }
+
+    public class Chanchito {
+        public int Cod { get; set; }
+        public string Ced { get; set; }
+        public List<Member> Members { get; set; }
     }
 }
