@@ -34,10 +34,9 @@ namespace NuCloudWeb.Controllers {
             var people = new List<string>();
             IAsyncSession session = DB.Instance.Driver.AsyncSession();
             try {
-                cursor = await session.RunAsync(@"MATCH (a:Person)
-                        RETURN a.name as name
-                        limit 10");
-                people = await cursor.ToListAsync(record => record["name"].As<string>());
+                cursor = await session.RunAsync(@"MATCH (a:Member)
+                        RETURN a.name");
+                people = await cursor.ToListAsync(record => record["a.name"].As<string>());
             } finally {
                 await session.CloseAsync();
             }
