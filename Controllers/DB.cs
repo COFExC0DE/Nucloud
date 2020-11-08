@@ -126,11 +126,11 @@ namespace NuCloudWeb.Controllers {
                 .ExecuteWithoutResultsAsync();
         }
 
-        public async void AddMemberToBranch(int cod, string ced) {
+        public async void AddMemberToNode(int cod, string ced, string node) {
             await Client.ConnectAsync();
 
             await Client.Cypher
-                .Match("(me:Miembro), (gr:Rama)")
+                .Match(String.Format("(me:Miembro), (gr:{0})", node))
                 .Where((Member me) => me.Ced == ced)
                 .AndWhere((Node gr) => gr.Cod == cod)
                 .Create("(me)-[:MemberOf {leader:0}]->(gr)")

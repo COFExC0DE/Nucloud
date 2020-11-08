@@ -25,7 +25,6 @@ namespace NuCloudWeb.Controllers {
         // GET: /Test/Crear/ 
         public async void Crear() {
             DB.Instance.SetDriver("bolt://54.236.12.7:33833", "neo4j", "tablet-admission-register");
-
         }
 
     }
