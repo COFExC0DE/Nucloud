@@ -1,0 +1,13 @@
+﻿@model NuCloudWeb.Models.Member
+
+@{
+    ViewData["Title"] = "AddMember";
+}
+
+
+<div class="text-center">
+    @using (Html.BeginForm("AddMember", "Member", FormMethod.Post)) {
+       
+        <input type="submit" value="Create" />
+    }
+</div>

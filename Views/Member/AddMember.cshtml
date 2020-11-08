@@ -1,0 +1,40 @@
+﻿@model NuCloudWeb.Models.Member
+
+@{
+    ViewData["Title"] = "AddMember";
+}
+
+
+<div class="text-center">
+    @using (Html.BeginForm("AddMember", "Member", FormMethod.Post)) {
+        <table cellpadding="0" cellspacing="0">
+            <tr>
+                <th colspan="2" align="center">Member details</th>
+            </tr>
+            <tr>
+                <td>Identification</td>
+                <td>@Html.TextBoxFor(m => m.Ced)</td>
+            </tr>
+            <tr>
+                <td>Name</td>
+                <td>@Html.TextBoxFor(m => m.Name)</td>
+            </tr>
+            <tr>
+                <td>Last Name</td>
+                <td>@Html.TextBoxFor(m => m.LastName)</td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td>@Html.TextBoxFor(m => m.Email)</td>
+            </tr>
+            <tr>
+                <td>Phone</td>
+                <td>@Html.TextBoxFor(m => m.Phone)</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Create" /></td>
+            </tr>
+        </table>
+    }
+</div>

@@ -1,4 +1,4 @@
-﻿@model NuCloudWeb.Models.Node
+﻿@model NuCloudWeb.Models.Group
 
 @{
     ViewData["Title"] = "Group";
@@ -6,6 +6,10 @@
 
 <div class="text-center">
     <h3>@String.Format("{0} {1}", Model.Cod, Model.Name)</h3>
+
+    <a a class="nav-link text-dark" asp-area="" asp-controller="Group" asp-action="AddMember" asp-route-cod="@Model.Cod">
+        <h6>Add member</h6>
+    </a>
 
     <h6>Members</h6>
     @foreach (Member n in Model.Members) {

@@ -17,5 +17,21 @@ namespace NuCloudWeb.Controllers {
             Member t = await DB.Instance.GetMember(ced.ToString());
             return View(t);
         }
+
+        [HttpGet]
+        public IActionResult AddMember() {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddMember(Member member) {
+            DB.Instance.CreateMember(new Member() {
+                Name = member.Name,
+                LastName = member.LastName,
+                Ced = member.Ced,
+                Phone = member.Phone
+            });
+            return View();
+        }
     }
 }
