@@ -1,5 +1,14 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model List<NuCloudWeb.Models.Coordination>
+
 @{
+    ViewData["Title"] = "Member";
 }
+
+<div class="text-center">
+    <h3 class="display-4">Organizations</h3>
+    @foreach (Coordination m in Model) {
+        <a a class="nav-link text-dark" asp-area="" asp-controller="Organization" asp-action="Organization" asp-route-cod="@m.Cod">
+            @String.Format("{0} {1}", m.Cod, m.Name)
+        </a>
+    }
+</div>

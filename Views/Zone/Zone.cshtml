@@ -1,0 +1,23 @@
+﻿@model NuCloudWeb.Models.Zone
+
+@{
+    ViewData["Title"] = "Zone";
+}
+
+<div class="text-center">
+    <h3>@String.Format("{0} {1}", Model.Cod, Model.Name)</h3>
+
+    <h6>Branches</h6>
+    @foreach (Branch n in Model.Children) {
+        <a a class="nav-link text-dark" asp-area="" asp-controller="Branch" asp-action="Branch" asp-route-cod="@n.Cod">
+            @String.Format("{0} {1}", n.Cod, n.Name)
+        </a>
+    }
+
+    <h6>Members</h6>
+    @foreach (Member n in Model.Members) {
+        <a a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="Member" asp-route-ced="@n.Ced">
+            @String.Format("{0} {1}", n.Name, n.LastName)
+        </a>
+    }
+</div>

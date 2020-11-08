@@ -19,25 +19,9 @@ namespace NuCloudWeb.Controllers {
             return View();
         }
 
-        public async Task<ActionResult> Members() {         
-            List<Member> t = await DB.Instance.GetMembers();
+        public async Task<ActionResult> Organization() {
+            List<Coordination> t = await DB.Instance.GetCoordinations();
             return View(t);
-        }
-
-        public IActionResult Organization() {
-            return View();
-        }
-
-        public IActionResult Branches() {
-            return View();
-        }
-
-        public IActionResult Zones() {
-            return View();
-        }
-
-        public IActionResult Groups() {
-            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

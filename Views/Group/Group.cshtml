@@ -1,0 +1,19 @@
+﻿@model NuCloudWeb.Models.Node
+
+@{
+    ViewData["Title"] = "Group";
+}
+
+<div class="text-center">
+    <h3>@String.Format("{0} {1}", Model.Cod, Model.Name)</h3>
+
+    <h6>Members</h6>
+    @foreach (Member n in Model.Members) {
+        <a a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="Member" asp-route-ced="@n.Ced">
+            @String.Format("{0} {1}", n.Name, n.LastName)
+        </a>
+    }
+
+
+
+</div>
