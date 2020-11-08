@@ -17,8 +17,21 @@ namespace NuCloudWeb.Controllers {
         // GET: /Test/Caca/ 
         public async Task<IActionResult> Caca() {
             DB.Instance.SetDriver("bolt://54.236.12.7:33833", "neo4j", "tablet-admission-register");
-            List<Member> t = await DB.Instance.GetAll();
+            List<Member> t = await DB.Instance.GetMembersOfGroup(2);
             return Ok(t.Select(x => x.Name).Aggregate((i,j) => i + j));
+        }
+
+        // 
+        // GET: /Test/Crear/ 
+        public async void Crear() {
+            DB.Instance.SetDriver("bolt://54.236.12.7:33833", "neo4j", "tablet-admission-register");
+            DB.Instance.CreateChief(new Chief() { 
+                Name = "Edgar",
+                LastName = "Silva",
+                Phone = 18452012,
+                Email = "esilva@correo.com",
+                Ced = "1-458-120"
+            });
         }
 
     }
