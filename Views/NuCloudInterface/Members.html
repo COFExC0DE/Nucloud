@@ -207,37 +207,70 @@ form.example::after {
 </body>
 </html> 
  
+
 <!DOCTYPE html>
 <html>
-<head>
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Username</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Bootstrap 4 CDN and Starter Template</td>
+            <td>Cristina</td>
+            <td>2.846</td>
+            <td>
+              <button type="button" class="btn btn-primary"><i class="far fa-eye"></i></button>
+              <button type="button" class="btn btn-success"><i class="fas fa-edit"></i></button>
+            <button type="button" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>Examples</td>
+            <td>Cristina</td>
+            <td>Milan</td>
+            <td>
+              <button type="button" class="btn btn-primary"><i class="far fa-eye"></i></button>
+              <button type="button" class="btn btn-success"><i class="fas fa-edit"></i></button>
+            <button type="button" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>Examples</td>
+            <td>Cristina</td>
+            <td>Gomez</td>
+            <td>
+              <button type="button" class="btn btn-primary"><i class="far fa-eye"></i></button>
+              <button type="button" class="btn btn-success"><i class="fas fa-edit"></i></button>
+            <button type="button" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 <style>
-table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
+.container {
+  padding: 2rem 0rem;
 }
 
-td, th {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
+h4 {
+  margin: 2rem 0rem 1rem;
 }
 
-tr:nth-child(even) {
-  background-color: #dddddd;
-}
 </style>
-</head>
-<body>
-
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Lastname</th>
-    <th>Username</th>
-    <th>View</th>
-  </tr>
-</table>
 
 </body>
-</html>
+</html> 
