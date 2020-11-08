@@ -6,7 +6,7 @@ namespace NuCloudWeb.Models {
         public string Name { get; set; }
         public string Website { get; set; }
         public Address Address { get; set; }
-        public List<int> PhoneNumbers { get; set; }
+        public int PhoneNumber { get; set; }
         public string Image { get; set; }
         public Coordination Coordination { get; set; }
     }

@@ -2,9 +2,10 @@
 
 namespace NuCloudWeb.Models {
     public class Person {
-        public int ID { get; set; }
+        public string Ced { get; set; }
         public string Name { get; set; }
+        public string LastName { get; set; }
         public string Email { get; set; }
-        public List<int> PhoneNumbers { get; set; }
+        public int Phone { get; set; }
     }
 }

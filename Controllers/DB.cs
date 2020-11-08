@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Neo4j.Driver;
+using NuCloudWeb.Models;
 
 namespace NuCloudWeb.Controllers {
     [Route("api/[controller]")]
@@ -29,14 +30,20 @@ namespace NuCloudWeb.Controllers {
             Driver?.Dispose();
         }
 
-        public async Task<List<string>> GetAll() {
+        public async Task<List<Member>> GetAll() {
             IResultCursor cursor;
-            var people = new List<string>();
+            var people = new List<Member>();
             IAsyncSession session = DB.Instance.Driver.AsyncSession();
             try {
                 cursor = await session.RunAsync(@"MATCH (a:Member)
-                        RETURN a.name");
-                people = await cursor.ToListAsync(record => record["a.name"].As<string>());
+                        RETURN a.name, a.lastName, a.phone, a.eMail, a.ced");
+                people = await cursor.ToListAsync(record => new Member() {
+                    Name = record["a.name"].As<string>(),
+                    LastName = record["a.lastName"].As<string>(),
+                    Phone = Int32.Parse(record["a.phone"].As<string>()),
+                    Email = record["a.eMail"].As<string>(),
+                    Ced = record["a.ced"].As<string>()
+                });
             } finally {
                 await session.CloseAsync();
             }
