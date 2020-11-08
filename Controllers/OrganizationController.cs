@@ -21,7 +21,7 @@ namespace NuCloudWeb.Controllers {
         public async Task<ActionResult> Organization([FromRoute] int cod) {
             Coordination coord = await DB.Instance.GetCoordination(cod);
             coord.Children = await DB.Instance.CoordinationZones(cod);
-            coord.Members = new List<Member>(); // get members
+            coord.Members = await DB.Instance.GetMembersOfNode(cod, "Coordination");
             return View(coord);
         }
     }

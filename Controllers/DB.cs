@@ -91,13 +91,13 @@ namespace NuCloudWeb.Controllers {
             return member[0];
         }
 
-        public async Task<List<Member>> GetMembersOfGroup(int id) {
+        public async Task<List<Member>> GetMembersOfNode(int id, string node) {
             IResultCursor cursor;
             var member = new List<Member>();
             IAsyncSession session = DB.Instance.Driver.AsyncSession();
             try {
-                cursor = await session.RunAsync(String.Format(@"MATCH (a:Miembro)-[:MemberOf]-(gr:Grupo) where gr.Cod = {0} 
-                                                RETURN a.Name, a.LastName, a.Phone, a.Email, a.Ced", id));
+                cursor = await session.RunAsync(String.Format(@"MATCH (a:Miembro)-[:MemberOf]-(gr:{0}) where gr.Cod = {1} 
+                                                RETURN a.Name, a.LastName, a.Phone, a.Email, a.Ced", node, id));
                 member = await cursor.ToListAsync(record => new Member() {
                     Name = record["a.Name"].As<string>(),
                     LastName = record["a.LastName"].As<string>(),

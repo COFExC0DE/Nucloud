@@ -16,7 +16,7 @@ namespace NuCloudWeb.Controllers {
         public async Task<ActionResult> Branch([FromRoute] int cod) {
             Branch n = await DB.Instance.GetBranch(cod);
             n.Children = await DB.Instance.BranchGroups(cod);
-            n.Members = new List<Member>(); // get members
+            n.Members = await DB.Instance.GetMembersOfNode(cod, "Rama");
             return View(n);
         }
     }

@@ -16,7 +16,7 @@ namespace NuCloudWeb.Controllers {
         public async Task<ActionResult> Zone([FromRoute] int cod) {
             Zone n = await DB.Instance.GetZone(cod);
             n.Children = await DB.Instance.ZoneBranches(cod);
-            n.Members = new List<Member>(); // get members
+            n.Members = await DB.Instance.GetMembersOfNode(cod, "Zona");
             return View(n);
         }
     }

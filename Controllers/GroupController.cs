@@ -15,7 +15,7 @@ namespace NuCloudWeb.Controllers {
         [Route("Group/Group/{cod:int}")]
         public async Task<ActionResult> Group([FromRoute] int cod) {
             Group n = await DB.Instance.GetGroup(cod);
-            n.Members = await DB.Instance.GetMembersOfGroup(cod);
+            n.Members = await DB.Instance.GetMembersOfNode(cod, "Grupo");
             return View(n);
         }
     }
