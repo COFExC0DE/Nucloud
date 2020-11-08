@@ -38,8 +38,8 @@ namespace NuCloudWeb.Controllers {
             var member = new List<Member>();
             IAsyncSession session = DB.Instance.Driver.AsyncSession();
             try {
-                cursor = await session.RunAsync(@"MATCH (a:Member)
-                                                RETURN a.Name, a.LastName, A.phone, a.Email, a.Ced");
+                cursor = await session.RunAsync(@"MATCH (a:Miembro)
+                                                RETURN a.Name, a.LastName, a.Phone, a.Email, a.Ced");
                 member = await cursor.ToListAsync(record => new Member() {
                     Name = record["a.Name"].As<string>(),
                     LastName = record["a.LastName"].As<string>(),
@@ -53,13 +53,35 @@ namespace NuCloudWeb.Controllers {
             return member;
         }
 
+        public async Task<Member> GetMember(string ced) {
+            IResultCursor cursor;
+            var member = new List<Member>();
+            IAsyncSession session = DB.Instance.Driver.AsyncSession();
+            try {
+                cursor = await session.RunAsync(String.Format(@"MATCH (a:Miembro) where a.Ced = '{0}'
+                                                RETURN a.Name, a.LastName, a.Phone, a.Email, a.Ced", ced));
+
+                member = await cursor.ToListAsync(record => new Member() {
+                    Name = record["a.Name"].As<string>(),
+                    LastName = record["a.LastName"].As<string>(),
+                    Phone = Int32.Parse(record["a.Phone"].As<string>()),
+                    Email = record["a.Email"].As<string>(),
+                    Ced = record["a.Ced"].As<string>()
+                });
+
+            } finally {
+                await session.CloseAsync();
+            }
+            return member[0];
+        }
+
         public async Task<List<Member>> GetMembersOfGroup(int id) {
             IResultCursor cursor;
             var member = new List<Member>();
             IAsyncSession session = DB.Instance.Driver.AsyncSession();
             try {
-                cursor = await session.RunAsync(String.Format(@"MATCH (a:Member)-[:MemberOf]-(gr:Group) where gr.cod = {0} 
-                                                RETURN a.Name, a.LastName, A.phone, a.Email, a.Ced", id));
+                cursor = await session.RunAsync(String.Format(@"MATCH (a:Miembro)-[:MemberOf]-(gr:Grupo) where gr.Cod = {0} 
+                                                RETURN a.Name, a.LastName, a.Phone, a.Email, a.Ced", id));
                 member = await cursor.ToListAsync(record => new Member() {
                     Name = record["a.Name"].As<string>(),
                     LastName = record["a.LastName"].As<string>(),
@@ -209,12 +231,12 @@ namespace NuCloudWeb.Controllers {
             return Nodes;
         }
 
-        public async Task<List<Node>> ChiefZones(string ced) {
+        public async Task<List<Node>> CoordinationZones(int cod) {
             IResultCursor cursor;
             var Nodes = new List<Node>();
             IAsyncSession session = DB.Instance.Driver.AsyncSession();
             try {
-                cursor = await session.RunAsync(String.Format(@"MATCH (z:Chief)-[:Has]-(br:Zona) where z.Ced = {0} return br", ced));
+                cursor = await session.RunAsync(String.Format(@"MATCH (z:Coordination)-[:Has]-(br:Zona) where z.Cod = {0} return br", cod));
                 Nodes = await cursor.ToListAsync(record => new Node() {
                     Name = record["a.Name"].As<string>(),
                     Cod = Int32.Parse(record["a.Cod"].As<string>())

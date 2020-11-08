@@ -19,7 +19,24 @@ namespace NuCloudWeb.Controllers {
             return View();
         }
 
-        public IActionResult Privacy() {
+        public async Task<ActionResult> Members() {         
+            List<Member> t = await DB.Instance.GetMembers();
+            return View(t);
+        }
+
+        public IActionResult Organization() {
+            return View();
+        }
+
+        public IActionResult Branches() {
+            return View();
+        }
+
+        public IActionResult Zones() {
+            return View();
+        }
+
+        public IActionResult Groups() {
             return View();
         }
 
