@@ -25,13 +25,7 @@ namespace NuCloudWeb.Controllers {
         // GET: /Test/Crear/ 
         public async void Crear() {
             DB.Instance.SetDriver("bolt://54.236.12.7:33833", "neo4j", "tablet-admission-register");
-            DB.Instance.CreateChief(new Chief() { 
-                Name = "Edgar",
-                LastName = "Silva",
-                Phone = 18452012,
-                Email = "esilva@correo.com",
-                Ced = "1-458-120"
-            });
+
         }
 
     }

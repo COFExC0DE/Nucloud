@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Neo4j.Driver;
+using Neo4jClient;
 using NuCloudWeb.Models;
 
 namespace NuCloudWeb.Controllers {
@@ -13,6 +14,7 @@ namespace NuCloudWeb.Controllers {
     public sealed class DB : ControllerBase {
         private static DB instance = null;
         public IDriver Driver;
+        public BoltGraphClient Client;
 
         public static DB Instance {
             get {
@@ -24,6 +26,7 @@ namespace NuCloudWeb.Controllers {
 
         public void SetDriver(string uri, string user, string password) {
             Driver = GraphDatabase.Driver(uri, AuthTokens.Basic(user, password));
+            Client = new BoltGraphClient(uri, user, password);
         }
 
         public void Dispose() {
@@ -36,13 +39,13 @@ namespace NuCloudWeb.Controllers {
             IAsyncSession session = DB.Instance.Driver.AsyncSession();
             try {
                 cursor = await session.RunAsync(@"MATCH (a:Member)
-                        RETURN a.name, a.lastName, a.phone, a.eMail, a.ced");
+                                                RETURN a.Name, a.LastName, A.phone, a.Email, a.Ced");
                 member = await cursor.ToListAsync(record => new Member() {
-                    Name = record["a.name"].As<string>(),
-                    LastName = record["a.lastName"].As<string>(),
-                    Phone = Int32.Parse(record["a.phone"].As<string>()),
-                    Email = record["a.eMail"].As<string>(),
-                    Ced = record["a.ced"].As<string>()
+                    Name = record["a.Name"].As<string>(),
+                    LastName = record["a.LastName"].As<string>(),
+                    Phone = Int32.Parse(record["a.Phone"].As<string>()),
+                    Email = record["a.Email"].As<string>(),
+                    Ced = record["a.Ced"].As<string>()
                 });
             } finally {
                 await session.CloseAsync();
@@ -56,13 +59,13 @@ namespace NuCloudWeb.Controllers {
             IAsyncSession session = DB.Instance.Driver.AsyncSession();
             try {
                 cursor = await session.RunAsync(String.Format(@"MATCH (a:Member)-[:MemberOf]-(gr:Group) where gr.cod = {0} 
-                                                RETURN a.name, a.lastName, a.phone, a.eMail, a.ced", id));
+                                                RETURN a.Name, a.LastName, A.phone, a.Email, a.Ced", id));
                 member = await cursor.ToListAsync(record => new Member() {
-                    Name = record["a.name"].As<string>(),
-                    LastName = record["a.lastName"].As<string>(),
-                    Phone = Int32.Parse(record["a.phone"].As<string>()),
-                    Email = record["a.eMail"].As<string>(),
-                    Ced = record["a.ced"].As<string>()
+                    Name = record["a.Name"].As<string>(),
+                    LastName = record["a.LastName"].As<string>(),
+                    Phone = Int32.Parse(record["a.Phone"].As<string>()),
+                    Email = record["a.Email"].As<string>(),
+                    Ced = record["a.Ced"].As<string>()
                 });
             } finally {
                 await session.CloseAsync();
@@ -71,60 +74,139 @@ namespace NuCloudWeb.Controllers {
         }
 
         public async void CreateChief(Chief chief) {
-            IAsyncSession session = DB.Instance.Driver.AsyncSession();
-            try {
-                await session.RunAsync(String.Format("CREATE (ee:Coordinador { name: '{0}', lastName: '{1}', ced: '{2}', eMail: '{3}', phone: '{4}', start: '{5}', end: '{6}' })",
-                                                        chief.Name, chief.LastName, chief.Ced, chief.Email, chief.Phone, chief.Start, chief.End));
-            } finally {
-                await session.CloseAsync();
-            }
+            await Client.ConnectAsync();
+            await Client.Cypher.Create("(cc:Chief {newCoord})").WithParam("newCoord", chief).ExecuteWithoutResultsAsync();
         }
 
         public async void CreateMember(Member member) {
-            IAsyncSession session = DB.Instance.Driver.AsyncSession();
-            try {
-                await session.RunAsync(String.Format(@"CREATE (ee:Member { name: {0}, lastName: {1}, ced: {2}, eMail: {3}, phone: {4}})",
-                                                        member.Name, member.LastName, member.Ced, member.Email, member.Phone));
-            } finally {
-                await session.CloseAsync();
-            }
+            await Client.ConnectAsync();
+            await Client.Cypher.Create("(cc:Miembro {new})").WithParam("new", member).ExecuteWithoutResultsAsync();
         }
 
-        public async void AddZone(string ced, string name, int id) {
-            IAsyncSession session = DB.Instance.Driver.AsyncSession();
-            try {
-                await session.RunAsync(String.Format(@"MATCH (e:Coordinador) where e.ced = {0}
-                                                        CREATE(zo: Zone { name: {1}, cod: {2}})
-                                                        CREATE(e) -[:Have]->(zo)
-                                                        ",
-                                                        ced, name, id));
-            } finally {
-                await session.CloseAsync();
-            }
+        public async void AddZone(string ced, Node node) {
+            await Client.ConnectAsync();
+            await Client.Cypher
+                .Match("(c:Chief)")
+                .Where((Chief c) => c.Ced == ced)
+                .Create("(c)-[:Has]->(zo:Zona {new})")
+                .WithParam("new", node)
+                .ExecuteWithoutResultsAsync();
         }
 
-        public async void AddBranch(int cod, string name, int id) {
-            IAsyncSession session = DB.Instance.Driver.AsyncSession();
-            try {
-                await session.RunAsync(String.Format(@"MATCH (e:Zone) where e.cod = {0}
-                                                        CREATE (br:Branch {name: {1}, cod: {2}})
-                                                        CREATE(e) -[:Have]->(br)",
-                                                        cod, name, id));
-            } finally {
-                await session.CloseAsync();
-            }
+        public async void AddBranch(int cod, Node node) {
+            await Client.ConnectAsync();
+
+            await Client.Cypher
+                        .Match("(c:Zona)")
+                        .Where((Node c) => c.Cod == cod)
+                        .Create("(c)-[:Has]->(br:Rama {new})")
+                        .WithParam("new", node)
+                        .ExecuteWithoutResultsAsync();
         }
 
-        public async void AddGroup(int cod, string name, int id) {
+        public async void AddGroup(int cod, Group node) {
+            await Client.ConnectAsync();
+
+            await Client.Cypher
+                .Match("(c:Rama)")
+                .Where((Node c) => c.Cod == cod)
+                .Create("(c)-[:Has]->(br:Grupo {new})")
+                .WithParam("new", node)
+                .ExecuteWithoutResultsAsync();
+        }
+
+        public async void AddMemberToGroup(int cod, string ced) {
+            await Client.ConnectAsync();
+
+            await Client.Cypher
+                .Match("(me:Miembro), (gr:Grupo)")
+                .Where((Member me) => me.Ced == ced)
+                .AndWhere((Group gr) => gr.Cod == cod)
+                .Create("(me)-[:MemberOf {leader:0, monitor:0}]->(gr)")
+                .ExecuteWithoutResultsAsync();
+        }
+
+        public async void AddMemberToBranch(int cod, string ced) {
+            await Client.ConnectAsync();
+
+            await Client.Cypher
+                .Match("(me:Miembro), (gr:Rama)")
+                .Where((Member me) => me.Ced == ced)
+                .AndWhere((Node gr) => gr.Cod == cod)
+                .Create("(me)-[:MemberOf {leader:0}]->(gr)")
+                .ExecuteWithoutResultsAsync();
+        }
+
+        public async void MakeMemberGroupLeader(int cod, string ced) {
+            await Client.ConnectAsync();
+
+            await Client.Cypher
+                .Match("(me:Miembro), (gr:Grupo)")
+                .Where((Member me) => me.Ced == ced)
+                .AndWhere((Group gr) => gr.Cod == cod)
+                .Merge("(me) -[mo: MemberOf]->(gr)")
+                .Set("mo.leader = 1")
+                .ExecuteWithoutResultsAsync();
+        }
+
+        public async void EditMember(Member member) {
+            await Client.ConnectAsync();
+
+            await Client.Cypher
+                .Match("(me:Miembro)")
+                .Where((Member me) => me.Ced == member.Ced)
+                .Merge("(me)-[:MemberOf]->()")
+                .Set("me = {mem}")
+                .WithParam("mem", member)
+                .ExecuteWithoutResultsAsync();
+        }
+
+        public async Task<List<Node>> ZoneBranches(int id) {
+            IResultCursor cursor;
+            var Nodes = new List<Node>();
             IAsyncSession session = DB.Instance.Driver.AsyncSession();
             try {
-                await session.RunAsync(String.Format(@"MATCH (e:Branch) where e.cod = {0}
-                                                        CREATE (gr:Group {name: {1}, cod: {2}})
-                                                        CREATE(e) -[:Have]->(gr)",
-                                                        cod, name, id));
+                cursor = await session.RunAsync(String.Format(@"MATCH (zo:Zona)-[:Has]-(br:Rama) where zo.Cod = {0} return br", id));
+                Nodes = await cursor.ToListAsync(record => new Node() {
+                    Name = record["a.Name"].As<string>(),
+                    Cod = Int32.Parse(record["a.Cod"].As<string>())
+                });
             } finally {
                 await session.CloseAsync();
             }
+            return Nodes;
+        }
+
+        public async Task<List<Group>> BranchGroups(int id) {
+            IResultCursor cursor;
+            var Nodes = new List<Group>();
+            IAsyncSession session = DB.Instance.Driver.AsyncSession();
+            try {
+                cursor = await session.RunAsync(String.Format(@"MATCH (br:Rama)-[:Has]-(gr:Grupo) where br.Cod = {0} return gr", id));
+                Nodes = await cursor.ToListAsync(record => new Group() {
+                    Name = record["a.Name"].As<string>(),
+                    Cod = Int32.Parse(record["a.Cod"].As<string>())
+                });
+            } finally {
+                await session.CloseAsync();
+            }
+            return Nodes;
+        }
+
+        public async Task<List<Node>> ChiefZones(string ced) {
+            IResultCursor cursor;
+            var Nodes = new List<Node>();
+            IAsyncSession session = DB.Instance.Driver.AsyncSession();
+            try {
+                cursor = await session.RunAsync(String.Format(@"MATCH (z:Chief)-[:Has]-(br:Zona) where z.Ced = {0} return br", ced));
+                Nodes = await cursor.ToListAsync(record => new Node() {
+                    Name = record["a.Name"].As<string>(),
+                    Cod = Int32.Parse(record["a.Cod"].As<string>())
+                });
+            } finally {
+                await session.CloseAsync();
+            }
+            return Nodes;
         }
     }
 }
