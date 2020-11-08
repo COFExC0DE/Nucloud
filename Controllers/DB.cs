@@ -73,6 +73,11 @@ namespace NuCloudWeb.Controllers {
             return member;
         }
 
+        public async void CreateCoordination(Coordination c) {
+            await Client.ConnectAsync();
+            await Client.Cypher.Create("(cc:Coordination {newCoord})").WithParam("newCoord", c).ExecuteWithoutResultsAsync();
+        }
+
         public async void CreateChief(Chief chief) {
             await Client.ConnectAsync();
             await Client.Cypher.Create("(cc:Chief {newCoord})").WithParam("newCoord", chief).ExecuteWithoutResultsAsync();
@@ -83,11 +88,11 @@ namespace NuCloudWeb.Controllers {
             await Client.Cypher.Create("(cc:Miembro {new})").WithParam("new", member).ExecuteWithoutResultsAsync();
         }
 
-        public async void AddZone(string ced, Node node) {
+        public async void AddZone(int cod, Node node) {
             await Client.ConnectAsync();
             await Client.Cypher
-                .Match("(c:Chief)")
-                .Where((Chief c) => c.Ced == ced)
+                .Match("(c:Coordination)")
+                .Where((Coordination c) => c.Cod == cod)
                 .Create("(c)-[:Has]->(zo:Zona {new})")
                 .WithParam("new", node)
                 .ExecuteWithoutResultsAsync();
