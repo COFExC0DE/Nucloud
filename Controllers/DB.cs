@@ -131,6 +131,17 @@ namespace NuCloudWeb.Controllers {
                 .ExecuteWithoutResultsAsync();
         }
 
+        public async void AddChiefToCoord(int cod, string ced) {
+            await Client.ConnectAsync();
+
+            await Client.Cypher
+                .Match("(me:Chief), (gr:Coordination)")
+                .Where((Chief me) => me.Ced == ced)
+                .AndWhere((Coordination gr) => gr.Cod == cod)
+                .Create("(me)-[:HeadOf]->(gr)")
+                .ExecuteWithoutResultsAsync();
+        }
+
         public async void AddMemberToNode(int cod, string ced, string node) {
             await Client.ConnectAsync();
 
