@@ -5,7 +5,11 @@
 
 <div class="text-center">
     <h3>Model.Name</h3>
-    
+
+    <a a class="nav-link text-dark" asp-area="" asp-controller="Organization" asp-action="AddZone" asp-route-cod="@Model.Cod">
+        <h6>Add zone</h6>
+    </a>
+
     <h6>Zones</h6>
     @foreach (Zone n in Model.Children) {
         <a a class="nav-link text-dark" asp-area="" asp-controller="Zone" asp-action="Zone" asp-route-cod="@n.Cod">

@@ -19,5 +19,18 @@ namespace NuCloudWeb.Controllers {
             n.Members = await DB.Instance.GetMembersOfNode(cod, "Rama");
             return View(n);
         }
+
+        [HttpGet]
+        [Route("Branch/AddGroup/{cod:int}")]
+        public IActionResult AddGroup([FromRoute] int cod) {            
+            return View();
+        }
+
+        [HttpPost]
+        [Route("Branch/AddGroup/{cod:int}")]
+        public IActionResult AddGroup([FromRoute] int cod, Group g) {
+            DB.Instance.AddGroup(cod, g);
+            return Redirect(Request.Headers["Referer"].ToString());
+        }
     }
 }

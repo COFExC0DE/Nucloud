@@ -19,5 +19,18 @@ namespace NuCloudWeb.Controllers {
             n.Members = await DB.Instance.GetMembersOfNode(cod, "Zona");
             return View(n);
         }
+
+        [HttpGet]
+        [Route("Zone/AddBranch/{cod:int}")]
+        public IActionResult AddBranch([FromRoute] int cod) {
+            return View();
+        }
+
+        [HttpPost]
+        [Route("Zone/AddBranch/{cod:int}")]
+        public IActionResult AddBranch([FromRoute] int cod, Branch g) {
+            DB.Instance.AddBranch(cod, g);
+            return Redirect(Request.Headers["Referer"].ToString());
+        }
     }
 }

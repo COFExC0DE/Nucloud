@@ -24,5 +24,19 @@ namespace NuCloudWeb.Controllers {
             coord.Members = await DB.Instance.GetMembersOfNode(cod, "Coordination");
             return View(coord);
         }
+
+        [HttpGet]
+        [Route("Organization/AddZone/{cod:int}")]
+        public IActionResult AddZone([FromRoute] int cod) {
+            return View();
+        }
+
+        [HttpPost]
+        [Route("Organization/AddZone/{cod:int}")]
+        public IActionResult AddZone([FromRoute] int cod, Zone g) {
+            DB.Instance.AddZone(cod, g);
+            return Redirect(Request.Headers["Referer"].ToString());
+        }
+
     }
 }

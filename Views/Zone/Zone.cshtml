@@ -7,6 +7,10 @@
 <div class="text-center">
     <h3>@String.Format("{0} {1}", Model.Cod, Model.Name)</h3>
 
+    <a a class="nav-link text-dark" asp-area="" asp-controller="Zone" asp-action="AddBranch" asp-route-cod="@Model.Cod">
+        <h6>Add branch</h6>
+    </a>
+
     <h6>Branches</h6>
     @foreach (Branch n in Model.Children) {
         <a a class="nav-link text-dark" asp-area="" asp-controller="Branch" asp-action="Branch" asp-route-cod="@n.Cod">
