@@ -4,9 +4,50 @@
     ViewData["Title"] = "Member";
 }
 
+<h2>@String.Format("{0} {1}", Model.Name, Model.LastName)</h2>
+
+
 <div class="text-center">
-    <h6>@String.Format("{0} {1}", Model.Name, Model.LastName)</h6>
-    <p>@Model.Ced</p>
-    <p>@Model.Phone</p>
-    <p>@Model.Email</p>
+    <table class="border:1px solid black; center" style="border:1px solid black;margin-left:auto;margin-right:auto;">
+        <tr>
+        <thead>
+            <tr>
+                <th scope="col">ID Number</th>
+                <th scope="col">Phone Number</th>
+                <th scope="col">Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>@Model.Ced</th>
+                <th>@Model.Phone</th>
+                <th>@Model.Email</th>
+            </tr>
+        </tbody>
+    </table>
 </div>
+
+<span>1</span>
+
+<html>
+<head>
+    <style>
+        .button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <a href="#" class="button">Make Monitor of...</a>
+
+</body>
+</html>

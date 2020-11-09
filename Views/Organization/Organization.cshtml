@@ -3,20 +3,113 @@
     ViewData["Title"] = "Zones";
 }
 
-<div class="text-center">
-    <h3>Model.Name</h3>
-    
-    <h6>Zones</h6>
-    @foreach (Zone n in Model.Children) {
-        <a a class="nav-link text-dark" asp-area="" asp-controller="Zone" asp-action="Zone" asp-route-cod="@n.Cod">
-            @String.Format("{0} {1}", n.Cod, n.Name)
-        </a>
-    }
+<h2>@Model.Name</h2>
 
-    <h6>Members</h6>
-    @foreach (Member n in Model.Members) {
-        <a a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="Member" asp-route-ced="@n.Ced">
-            @String.Format("{0} {1}", n.Name, n.LastName)
-        </a>
-    }
-</div>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            font-family: Arial;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        form.example input[type=text] {
+            padding: 10px;
+            font-size: 17px;
+            border: 1px solid grey;
+            float: left;
+            width: 80%;
+            background: #f1f1f1;
+        }
+
+        form.example button {
+            float: left;
+            width: 20%;
+            padding: 10px;
+            background: #2196F3;
+            color: white;
+            font-size: 17px;
+            border: 1px solid grey;
+            border-left: none;
+            cursor: pointer;
+        }
+
+            form.example button:hover {
+                background: #0b7dda;
+            }
+
+        form.example::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+    </style>
+</head>
+<body>
+
+    <p></p>
+    <form class="example" action="/action_page.php" style="margin:auto;max-width:300px">
+        <input type="text" placeholder="Search.." name="search2">
+        <button type="submit"><i class="fa fa-search"></i></button>
+    </form>
+
+</body>
+
+</html>
+
+
+    <div class="text-center">
+        <table class="border:1px solid black; center" style="border:1px solid black;margin-left:auto;margin-right:auto;">
+            <tr>
+            <thead>
+                <tr>
+                    <th scope="col">Zones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>
+                        @foreach (Zone n in Model.Children)
+                        {
+                            <a a class="nav-link text-dark" asp-area="" asp-controller="Zone" asp-action="Zone" asp-route-cod="@n.Cod">
+                                @String.Format("{0}. {1}", n.Cod, n.Name)
+                            </a>
+                        }
+                    </th>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</span>
+
+<span>
+    <div class="text-center">
+        <table class="table table-bordered table-responsive table-hover">
+            <tr>
+            <thead>
+                <tr>
+                    <th scope="col">Members</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    @foreach (Member n in Model.Members)
+                    {
+                        <th a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="Member" asp-route-ced="@n.Ced">
+                            @String.Format("{0} {1}", n.Name, n.LastName)
+                        </th>
+                    }
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</span>

@@ -3,12 +3,93 @@
 @{
     ViewData["Title"] = "Member";
 }
-
 <div class="text-center">
     <h3 class="display-4">Organizations</h3>
-    @foreach (Coordination m in Model) {
-        <a a class="nav-link text-dark" asp-area="" asp-controller="Organization" asp-action="Organization" asp-route-cod="@m.Cod">
-            @String.Format("{0} {1}", m.Cod, m.Name)
-        </a>
-    }
 </div>
+
+<span>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            font-family: Arial;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        form.example input[type=text] {
+            padding: 10px;
+            font-size: 17px;
+            border: 1px solid grey;
+            float: left;
+            width: 80%;
+            background: #f1f1f1;
+        }
+
+        form.example button {
+            float: left;
+            width: 20%;
+            padding: 10px;
+            background: #2196F3;
+            color: white;
+            font-size: 17px;
+            border: 1px solid grey;
+            border-left: none;
+            cursor: pointer;
+        }
+
+            form.example button:hover {
+                background: #0b7dda;
+            }
+
+        form.example::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+    </style>
+</head>
+<body>
+
+    <p></p>
+    <form class="example" action="/action_page.php" style="margin:auto;max-width:300px">
+        <input type="text" placeholder="Search.." name="search2">
+        <button type="submit"><i class="fa fa-search"></i></button>
+    </form>
+
+</body>
+</html>
+</span>
+
+<span>
+
+    <div class="text-center">
+        <table class="border:1px solid black; center" style="border:1px solid black;margin-left:auto;margin-right:auto;">
+            <tr>
+            <thead>
+                <tr>
+                    <th scope="col">Members</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>
+                        @foreach (Coordination m in Model)
+                        {
+                            <a a class="nav-link text-dark" asp-area="" asp-controller="Organization" asp-action="Organization" asp-route-cod="@m.Cod">
+                                @String.Format("{0}. {1}", m.Cod, m.Name)
+                            </a>
+
+                        }
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</span>
