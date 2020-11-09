@@ -8,6 +8,6 @@
 <div class="text-center">
     @using (Html.BeginForm("AddMember", "Group", FormMethod.Post)) {
         @Html.DropDownListFor(m => m.Id, Model.Members.Select(x => new SelectListItem { Text=String.Format("{0} {1}", x.Name, x.LastName), Value=x.Ced }), "Select Item", new { @class = "form-control" })
-        <input type="submit" value="Create" />
+        <input type="submit" value="Add" />
     }
 </div>

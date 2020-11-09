@@ -11,6 +11,10 @@
         <h6>Add member</h6>
     </a>
 
+    <a a class="nav-link text-dark" asp-area="" asp-controller="Group" asp-action="AssignMonitor" asp-route-cod="@Model.Cod">
+        <h6>Assign monitor</h6>
+    </a>
+
     <h6>Members</h6>
     @foreach (Member n in Model.Members) {
         <a a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="Member" asp-route-ced="@n.Ced">

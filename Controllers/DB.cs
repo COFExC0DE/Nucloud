@@ -102,6 +102,26 @@ namespace NuCloudWeb.Controllers {
             Driver?.Dispose();
         }
 
+        public async Task<List<Member>> GetMonitors() {
+            IResultCursor cursor;
+            var member = new List<Member>();
+            IAsyncSession session = DB.Instance.Driver.AsyncSession();
+            try {
+                cursor = await session.RunAsync(@"MATCH (a:Miembro)-[:MemberOf]->(:Rama)
+                                                RETURN a.Name, a.LastName, a.Phone, a.Email, a.Ced");
+                member = await cursor.ToListAsync(record => new Member() {
+                    Name = record["a.Name"].As<string>(),
+                    LastName = record["a.LastName"].As<string>(),
+                    Phone = Int32.Parse(record["a.Phone"].As<string>()),
+                    Email = record["a.Email"].As<string>(),
+                    Ced = record["a.Ced"].As<string>()
+                });
+            } finally {
+                await session.CloseAsync();
+            }
+            return member;
+        }
+
         public async Task<List<Member>> GetMembers() {
             IResultCursor cursor;
             var member = new List<Member>();
@@ -264,6 +284,18 @@ namespace NuCloudWeb.Controllers {
                 .AndWhere((Group gr) => gr.Cod == cod)
                 .Merge("(me) -[mo: MemberOf]->(gr)")
                 .Set("mo.leader = 1")
+                .ExecuteWithoutResultsAsync();
+        }
+
+        public async void MakeMemberMonitor(int cod, string ced) {
+            await Client.ConnectAsync();
+
+            await Client.Cypher
+                .Match("(me:Miembro), (gr:Grupo)")
+                .Where((Member me) => me.Ced == ced)
+                .AndWhere((Group gr) => gr.Cod == cod)
+                .Merge("(me) -[mo: MemberOf]->(gr)")
+                .Set("mo.monitor = 1")
                 .ExecuteWithoutResultsAsync();
         }
 

@@ -35,6 +35,23 @@ namespace NuCloudWeb.Controllers {
             DB.Instance.AddMemberToGroup(cod, c.Id);
             return Redirect(Request.Headers["Referer"].ToString());
         }
+
+        [HttpGet]
+        [Route("Group/AssignMonitor/{cod:int}")]
+        public async Task<ActionResult> AssignMonitor([FromRoute] int cod) {
+            List<Member> t = await DB.Instance.GetMonitors();
+            Chanchito chanchito = new Chanchito() {
+                Members = t
+            };
+            return View(chanchito);
+        }
+
+        [HttpPost]
+        [Route("Group/AssignMonitor/{cod:int}")]
+        public IActionResult AssignMonitor([FromRoute] int cod, Chanchito c) {
+            DB.Instance.MakeMemberMonitor(cod, c.Id);
+            return Redirect(Request.Headers["Referer"].ToString());
+        }
     }
 
     public class Chanchito {

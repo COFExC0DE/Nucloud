@@ -33,5 +33,6 @@ namespace NuCloudWeb.Controllers {
             });
             return View();
         }
+
     }
 }
