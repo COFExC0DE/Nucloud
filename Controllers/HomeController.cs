@@ -20,8 +20,20 @@ namespace NuCloudWeb.Controllers {
         }
 
         public async Task<ActionResult> Organization() {
-            List<Coordination> t = await DB.Instance.GetCoordinations();
+            List<Cloud> t = await DB.Instance.GetClouds();
             return View(t);
+        }
+
+
+        [HttpGet]
+        public IActionResult AddCloud() {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddCloud(Cloud g) {
+            DB.Instance.AddCloud(g);
+            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

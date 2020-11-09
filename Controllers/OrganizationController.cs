@@ -17,12 +17,13 @@ namespace NuCloudWeb.Controllers {
         }
 
         [HttpGet]
-        [Route("Organization/Organization/{cod:int}")]
-        public async Task<ActionResult> Organization([FromRoute] int cod) {
-            Coordination coord = await DB.Instance.GetCoordination(cod);
-            coord.Children = await DB.Instance.CoordinationZones(cod);
-            coord.Members = await DB.Instance.GetMembersOfNode(cod, "Coordination");
-            return View(coord);
+        [Route("Organization/Cloud/{cod:int}")]
+        public async Task<ActionResult> Cloud([FromRoute] int cod) {
+            Cloud cloud = await DB.Instance.GetCloud(cod);
+            cloud.Coordination = await DB.Instance.GetCoordination(cod);
+            cloud.Coordination.Children = await DB.Instance.CoordinationZones(cod);
+            cloud.Coordination.Members = await DB.Instance.GetMembersOfNode(cod, "Coordination");
+            return View(cloud);
         }
 
         [HttpGet]
@@ -37,6 +38,5 @@ namespace NuCloudWeb.Controllers {
             DB.Instance.AddZone(cod, g);
             return Redirect(Request.Headers["Referer"].ToString());
         }
-
     }
 }

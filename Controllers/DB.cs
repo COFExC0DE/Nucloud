@@ -45,6 +45,59 @@ namespace NuCloudWeb.Controllers {
             Client = new BoltGraphClient(uri, user, password);
         }
 
+        internal async void AddCloud(Cloud g) {
+            await Client.ConnectAsync();
+
+            await Client.Cypher
+                .Create("(c:Cloud {cloud})-[:Has]->(a:Coordination {coord})")
+                .WithParams(new { 
+                    cloud = g,
+                    coord = new Coordination() { 
+                        Name = g.Name,
+                        Cod = g.Cod
+                    }
+                })
+                .ExecuteWithoutResultsAsync();
+        }
+
+        public async Task<List<Cloud>> GetClouds() {
+            IResultCursor cursor;
+            var cloud = new List<Cloud>();
+            IAsyncSession session = DB.Instance.Driver.AsyncSession();
+            try {
+                cursor = await session.RunAsync(@"MATCH (a:Cloud)
+                                                RETURN a.Name, a.PhoneNumber, a.Website, a.Cod");
+                cloud = await cursor.ToListAsync(record => new Cloud() {
+                    Name = record["a.Name"].As<string>(),
+                    Website = record["a.Website"].As<string>(),
+                    Cod = Int32.Parse(record["a.Cod"].As<string>()),
+                    PhoneNumber = Int32.Parse(record["a.PhoneNumber"].As<string>()),
+                });
+            } finally {
+                await session.CloseAsync();
+            }
+            return cloud;
+        }
+
+        public async Task<Cloud> GetCloud(int cod) {
+            IResultCursor cursor;
+            var cloud = new List<Cloud>();
+            IAsyncSession session = DB.Instance.Driver.AsyncSession();
+            try {
+                cursor = await session.RunAsync(String.Format(@"MATCH (a:Cloud) where a.Cod = {0}
+                                                RETURN a.Name, a.PhoneNumber, a.Website, a.Cod", cod));
+                cloud = await cursor.ToListAsync(record => new Cloud() {
+                    Name = record["a.Name"].As<string>(),
+                    Website = record["a.Website"].As<string>(),
+                    Cod = Int32.Parse(record["a.Cod"].As<string>()),
+                    PhoneNumber = Int32.Parse(record["a.PhoneNumber"].As<string>()),
+                });
+            } finally {
+                await session.CloseAsync();
+            }
+            return cloud[0];
+        }
+
         public void Dispose() {
             Driver?.Dispose();
         }

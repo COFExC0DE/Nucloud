@@ -2,7 +2,7 @@
 
 namespace NuCloudWeb.Models {
     public class Cloud {
-        public int ID { get; set; }
+        public int Cod { get; set; }
         public string Name { get; set; }
         public string Website { get; set; }
         public Address Address { get; set; }

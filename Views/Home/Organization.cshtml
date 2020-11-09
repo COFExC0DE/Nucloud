@@ -1,4 +1,4 @@
-﻿@model List<NuCloudWeb.Models.Coordination>
+﻿@model List<NuCloudWeb.Models.Cloud>
 
 @{
     ViewData["Title"] = "Member";
@@ -6,8 +6,13 @@
 
 <div class="text-center">
     <h3 class="display-4">Organizations</h3>
-    @foreach (Coordination m in Model) {
-        <a a class="nav-link text-dark" asp-area="" asp-controller="Organization" asp-action="Organization" asp-route-cod="@m.Cod">
+
+    <a a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="AddCloud" >
+        <h6>Add cloud</h6>
+    </a>
+
+    @foreach (Cloud m in Model) {
+        <a a class="nav-link text-dark" asp-area="" asp-controller="Organization" asp-action="Cloud" asp-route-cod="@m.Cod">
             @String.Format("{0} {1}", m.Cod, m.Name)
         </a>
     }
