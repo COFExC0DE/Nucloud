@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -22,6 +23,10 @@ namespace NuCloudWeb.Controllers {
                     instance = new DB();
                 return instance;
             }
+        }
+
+        public class Res{
+            public long Num { get; set; }
         }
 
         public async Task<Coordination> GetCoordination(int cod) {
@@ -325,6 +330,36 @@ namespace NuCloudWeb.Controllers {
                 await session.CloseAsync();
             }
             return Branches;
+        }
+
+        public async Task<long> CantMemberForCed(String ced){
+            
+            await Client.ConnectAsync();
+
+            var resultsAsync = Client.Cypher
+                            .Match("(me:Miembro)")
+                            .Where((Member me) => me.Ced == ced)
+                            .Return((me) => new Res
+                            {
+                                Num = me.Count()
+                            })
+                            .ResultsAsync;
+            return resultsAsync.Result.Single().Num;
+        }
+
+        public async Task<long> CantGroupForCod(int cod)
+        {
+            await Client.ConnectAsync();
+
+            var resultsAsync = Client.Cypher
+                            .Match("(gr:Grupo)")
+                            .Where((Group gr) => gr.Cod == cod)
+                            .Return((gr) => new Res
+                            {
+                                Num = gr.Count()
+                            })
+                            .ResultsAsync;
+            return resultsAsync.Result.Single().Num;
         }
 
         public async Task<List<Group>> BranchGroups(int id) {

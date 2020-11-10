@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Neo4j.Driver;
 using NuCloudWeb.Models;
 
 namespace NuCloudWeb.Controllers {
@@ -25,12 +26,17 @@ namespace NuCloudWeb.Controllers {
 
         [HttpPost]
         public IActionResult AddMember(Member member) {
-            DB.Instance.CreateMember(new Member() {
-                Name = member.Name,
-                LastName = member.LastName,
-                Ced = member.Ced,
-                Phone = member.Phone
-            });
+            long num = DB.Instance.CantMemberForCed(member.Ced).Result;
+            if (num == 0)
+            {
+                DB.Instance.CreateMember(new Member()
+                {
+                    Name = member.Name,
+                    LastName = member.LastName,
+                    Ced = member.Ced,
+                    Phone = member.Phone
+                });
+            }            
             return View();
         }
 
