@@ -29,7 +29,11 @@ namespace NuCloudWeb.Controllers {
         [HttpPost]
         [Route("Branch/AddGroup/{cod:int}")]
         public IActionResult AddGroup([FromRoute] int cod, Group g) {
-            DB.Instance.AddGroup(cod, g);
+            long res = DB.Instance.CantGroupForCod(cod).Result;
+            if(res == 0)
+            {
+                DB.Instance.AddGroup(cod, g);
+            }            
             return Redirect(Request.Headers["Referer"].ToString());
         }
 
