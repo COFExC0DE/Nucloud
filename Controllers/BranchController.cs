@@ -32,5 +32,22 @@ namespace NuCloudWeb.Controllers {
             DB.Instance.AddGroup(cod, g);
             return Redirect(Request.Headers["Referer"].ToString());
         }
+
+        [HttpGet]
+        [Route("Branch/AddMember/{cod:int}")]
+        public async Task<ActionResult> AddMember([FromRoute] int cod) {
+            List<Member> t = await DB.Instance.GetMembers();
+            Chanchito chanchito = new Chanchito() {
+                Members = t
+            };
+            return View(chanchito);
+        }
+
+        [HttpPost]
+        [Route("Branch/AddMember/{cod:int}")]
+        public IActionResult AddMember([FromRoute] int cod, Chanchito c) {
+            DB.Instance.AddMemberToBranch(cod, c.Id);
+            return Redirect(Request.Headers["Referer"].ToString());
+        }
     }
 }

@@ -11,6 +11,10 @@
         <h6>Add group</h6>
     </a>
 
+    <a a class="nav-link text-dark" asp-area="" asp-controller="Branch" asp-action="AddMember" asp-route-cod="@Model.Cod">
+        <h6>Add member</h6>
+    </a>
+
     <h6>Groups</h6>
     @foreach (Group n in Model.Children) {
         <a a class="nav-link text-dark" asp-area="" asp-controller="Group" asp-action="Group" asp-route-cod="@n.Cod">
