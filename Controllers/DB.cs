@@ -262,6 +262,21 @@ namespace NuCloudWeb.Controllers {
             return resultsAsync.Result.Single().Num;
         }
 
+        public async Task<long> CantGroupForCod(int cod)
+        {
+            await Client.ConnectAsync();
+
+            var resultsAsync = Client.Cypher
+                            .Match("(gr:Grupo)")
+                            .Where((Group gr) => gr.Cod == cod)
+                            .Return((gr) => new Res
+                            {
+                                Num = gr.Count()
+                            })
+                            .ResultsAsync;
+            return resultsAsync.Result.Single().Num;
+        }
+
         public async Task<List<Group>> BranchGroups(int id) {
             IResultCursor cursor;
             var Nodes = new List<Group>();
