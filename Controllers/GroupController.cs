@@ -16,6 +16,8 @@ namespace NuCloudWeb.Controllers {
         public async Task<ActionResult> Group([FromRoute] int cod) {
             Group n = await DB.Instance.GetGroup(cod);
             n.Members = await DB.Instance.GetMembersOfNode(cod, "Grupo");
+            n.Leaders = await DB.Instance.GetLeaders("Grupo", cod);
+            n.Coach = await DB.Instance.GetCoach("Grupo", cod);
             return View(n);
         }
 
@@ -50,6 +52,25 @@ namespace NuCloudWeb.Controllers {
         [Route("Group/AssignMonitor/{cod:int}")]
         public IActionResult AssignMonitor([FromRoute] int cod, Chanchito c) {
             DB.Instance.MakeMemberMonitor(cod, c.Id);
+            return Redirect(Request.Headers["Referer"].ToString());
+        }
+
+        [HttpGet]
+        [Route("Group/AssignLeader/{cod:int}")]
+        public async Task<ActionResult> AssignLeader([FromRoute] int cod) {
+            Chanchito chanchito = new Chanchito {
+                Members = await DB.Instance.GetMembersOfNode(cod, "Grupo")
+            };
+
+            return View(chanchito);
+        }
+
+        [HttpPost]
+        [Route("Group/AssignLeader/{cod:int}")]
+        public async Task<ActionResult> AssignLeader([FromRoute] int cod, Chanchito c) {
+            DB.Instance.MakeMemberNodeLeader(cod, c.Id, "Grupo");
+            int i = await DB.Instance.GetParenCode("Rama", "Grupo", cod);
+            DB.Instance.AddMemberToBranch(cod, c.Id);
             return Redirect(Request.Headers["Referer"].ToString());
         }
     }

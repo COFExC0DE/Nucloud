@@ -121,6 +121,47 @@ namespace NuCloudWeb.Controllers {
             }
             return member;
         }
+        
+
+        public async Task<Member> GetCoach(string node, int cod) {
+            IResultCursor cursor;
+            var member = new List<Member>();
+            IAsyncSession session = DB.Instance.Driver.AsyncSession();
+            try {
+                cursor = await session.RunAsync(String.Format(@"MATCH (a:Miembro)-[:MonitorOf]->(b:{0}) Where b.Cod = {1}
+                                                RETURN a.Name, a.LastName, a.Phone, a.Email, a.Ced", node, cod));
+                member = await cursor.ToListAsync(record => new Member() {
+                    Name = record["a.Name"].As<string>(),
+                    LastName = record["a.LastName"].As<string>(),
+                    Phone = Int32.Parse(record["a.Phone"].As<string>()),
+                    Email = record["a.Email"].As<string>(),
+                    Ced = record["a.Ced"].As<string>()
+                });
+            } finally {
+                await session.CloseAsync();
+            }
+            return member.Count > 0 ? member[0] : new Member() { Name = "None"};
+        }
+
+        public async Task<List<Member>> GetLeaders(string node, int cod) {
+            IResultCursor cursor;
+            var member = new List<Member>();
+            IAsyncSession session = DB.Instance.Driver.AsyncSession();
+            try {
+                cursor = await session.RunAsync(String.Format(@"MATCH (a:Miembro)-[:LeaderOf]->(b:{0}) Where b.Cod = {1}
+                                                RETURN a.Name, a.LastName, a.Phone, a.Email, a.Ced", node, cod));
+                member = await cursor.ToListAsync(record => new Member() {
+                    Name = record["a.Name"].As<string>(),
+                    LastName = record["a.LastName"].As<string>(),
+                    Phone = Int32.Parse(record["a.Phone"].As<string>()),
+                    Email = record["a.Email"].As<string>(),
+                    Ced = record["a.Ced"].As<string>()
+                });
+            } finally {
+                await session.CloseAsync();
+            }
+            return member;
+        }
 
         public async Task<List<Member>> GetMembers() {
             IResultCursor cursor;
@@ -189,9 +230,10 @@ namespace NuCloudWeb.Controllers {
             await Client.Cypher.Create("(cc:Coordination {newCoord})").WithParam("newCoord", c).ExecuteWithoutResultsAsync();
         }
 
-        public async void CreateChief(Chief chief) {
+        public async void CreateChief(Chief chief, int code) {
             await Client.ConnectAsync();
-            await Client.Cypher.Create("(cc:Chief {newCoord})").WithParam("newCoord", chief).ExecuteWithoutResultsAsync();
+            await Client.Cypher.Match("(ch:Chief)-[:ChiefOf]->(c:Cloud)").Where("c.Cod = {cod}").DetachDelete("ch").WithParam("cod", code).ExecuteWithoutResultsAsync();
+            await Client.Cypher.Match("(c:Cloud)").Where("c.Cod = {cod}").Create("(cc:Chief {newCoord})-[:ChiefOf]->(c)").WithParams(new { cod = code, newCoord = chief }).ExecuteWithoutResultsAsync();
         }
 
         public async void CreateMember(Member member) {
@@ -238,18 +280,18 @@ namespace NuCloudWeb.Controllers {
                 .Match("(me:Miembro), (gr:Grupo)")
                 .Where((Member me) => me.Ced == ced)
                 .AndWhere((Group gr) => gr.Cod == cod)
-                .Create("(me)-[:MemberOf {leader:0, monitor:0}]->(gr)")
+                .Create("(me)-[:MemberOf]->(gr)")
                 .ExecuteWithoutResultsAsync();
         }
 
-        public async void AddChiefToCoord(int cod, string ced) {
+        public async void AddMemberToCoord(int cod, string ced) {
             await Client.ConnectAsync();
 
             await Client.Cypher
-                .Match("(me:Chief), (gr:Coordination)")
-                .Where((Chief me) => me.Ced == ced)
+                .Match("(me:Miembro), (gr:Coordination)")
+                .Where((Member me) => me.Ced == ced)
                 .AndWhere((Coordination gr) => gr.Cod == cod)
-                .Create("(me)-[:HeadOf]->(gr)")
+                .Create("(me)-[:MemberOf]->(gr)")
                 .ExecuteWithoutResultsAsync();
         }
 
@@ -260,7 +302,7 @@ namespace NuCloudWeb.Controllers {
                 .Match("(me:Miembro), (gr:Rama)")
                 .Where((Member me) => me.Ced == ced)
                 .AndWhere((Branch gr) => gr.Cod == cod)
-                .Create("(me)-[:MemberOf {leader:0}]->(gr)")
+                .Create("(me)-[:MemberOf]->(gr)")
                 .ExecuteWithoutResultsAsync();
         }
 
@@ -271,20 +313,25 @@ namespace NuCloudWeb.Controllers {
                 .Match("(me:Miembro), (gr:Zona)")
                 .Where((Member me) => me.Ced == ced)
                 .AndWhere((NuCloudWeb.Models.Zone gr) => gr.Cod == cod)
-                .Create("(me)-[:MemberOf {leader:0}]->(gr)")
+                .Create("(me)-[:MemberOf]->(gr)")
                 .ExecuteWithoutResultsAsync();
         }
 
-        public async void MakeMemberGroupLeader(int cod, string ced) {
+        public async void MakeMemberNodeLeader(int cod, string ced, string n) {
             await Client.ConnectAsync();
 
             await Client.Cypher
-                .Match("(me:Miembro), (gr:Grupo)")
+                .Match(String.Format("(me:Miembro), (gr:{0})", n))
                 .Where((Member me) => me.Ced == ced)
-                .AndWhere((Group gr) => gr.Cod == cod)
-                .Merge("(me) -[mo: MemberOf]->(gr)")
-                .Set("mo.leader = 1")
+                .AndWhere("gr.Cod = {cod}")
+                .Merge("(me) -[:LeaderOf]->(gr)")
+                .WithParam("cod", cod)
                 .ExecuteWithoutResultsAsync();
+
+            await Client.Cypher.Match(String.Format("(m:Miembro)-[r:MemberOf]->(:{0})", n)).Where("m.Ced = {ced}").WithParam("ced", ced).Delete("r").ExecuteWithoutResultsAsync();
+
+            if (n == "Grupo")
+                await Client.Cypher.Match("(:Miembro)-[r:MonitorOf]->(:Grupo)").Delete("r").ExecuteWithoutResultsAsync();
         }
 
         public async void MakeMemberMonitor(int cod, string ced) {
@@ -294,8 +341,7 @@ namespace NuCloudWeb.Controllers {
                 .Match("(me:Miembro), (gr:Grupo)")
                 .Where((Member me) => me.Ced == ced)
                 .AndWhere((Group gr) => gr.Cod == cod)
-                .Merge("(me) -[mo: MemberOf]->(gr)")
-                .Set("mo.monitor = 1")
+                .Merge("(me) -[:MonitorOf]->(gr)")
                 .ExecuteWithoutResultsAsync();
         }
 
@@ -421,6 +467,40 @@ namespace NuCloudWeb.Controllers {
                 await session.CloseAsync();
             }
             return Groups[0];
+        }
+
+        public async Task<Chief> GetChief(int cod) {
+            IResultCursor cursor;
+            var Chiefs = new List<Chief>();
+            IAsyncSession session = DB.Instance.Driver.AsyncSession();
+            try {
+                cursor = await session.RunAsync(String.Format(@"MATCH (a:Chief)-[:ChiefOf]->(c:Cloud) WHERE c.Cod = {0} return a.Name, a.LastName, a.Ced, a.Email, a.Phone, a.Start, a.End", cod));
+                Chiefs = await cursor.ToListAsync(record => new Chief() {
+                    Name = record["a.Name"].As<string>(),
+                    LastName = record["a.LastName"].As<string>(),
+                    Phone = Int32.Parse(record["a.Phone"].As<string>()),
+                    Email = record["a.Email"].As<string>(),
+                    Ced = record["a.Ced"].As<string>(),
+                    Start = record["a.Start"].As<string>(),
+                    End = record["a.End"].As<string>()
+                });
+            } finally {
+                await session.CloseAsync();
+            }
+            return Chiefs.Count > 0 ? Chiefs[0] : new Chief() {  Name = "Node", LastName = ""};
+        }
+
+        public async Task<int> GetParenCode(string parent, string child, int cod) {
+            IResultCursor cursor;
+            var code = new List<int>();
+            IAsyncSession session = DB.Instance.Driver.AsyncSession();
+            try {
+                cursor = await session.RunAsync(String.Format(@"match (a:{0})-[:Has]->(b:{1}) where b.Cod = {2} return a.Cod", parent, child, cod));
+                code = await cursor.ToListAsync(record => Int32.Parse(record["a.Cod"].As<string>()));
+            } finally {
+                await session.CloseAsync();
+            }
+            return code[0];
         }
     }
 }

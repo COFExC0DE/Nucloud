@@ -21,6 +21,7 @@ namespace NuCloudWeb.Controllers {
         public async Task<ActionResult> Cloud([FromRoute] int cod) {
             Cloud cloud = await DB.Instance.GetCloud(cod);
             cloud.Coordination = await DB.Instance.GetCoordination(cod);
+            cloud.Coordination.Chief = await DB.Instance.GetChief(cod);
             cloud.Coordination.Children = await DB.Instance.CoordinationZones(cod);
             cloud.Coordination.Members = await DB.Instance.GetMembersOfNode(cod, "Coordination");
             return View(cloud);
@@ -28,7 +29,7 @@ namespace NuCloudWeb.Controllers {
 
         [HttpGet]
         [Route("Organization/AddZone/{cod:int}")]
-        public IActionResult AddZone([FromRoute] int cod) {
+        public IActionResult AddZone() {
             return View();
         }
 
@@ -37,6 +38,27 @@ namespace NuCloudWeb.Controllers {
         public IActionResult AddZone([FromRoute] int cod, Zone g) {
             DB.Instance.AddZone(cod, g);
             return Redirect(Request.Headers["Referer"].ToString());
+        }
+
+        [HttpGet]
+        [Route("Organization/AddChief/{cod:int}")]
+        public IActionResult AddChief() {
+            return View();
+        }
+
+        [HttpPost]
+        [Route("Organization/AddChief/{cod:int}")]
+        public IActionResult AddChief([FromRoute] int cod, Chief chief) {
+            DB.Instance.CreateChief(new Chief() {
+                Name = chief.Name,
+                LastName = chief.LastName,
+                Ced = chief.Ced,
+                Start = chief.Start,
+                End = chief.End,
+                Phone = chief.Phone,
+                Email = chief.Email
+            }, cod);
+            return View();
         }
     }
 }

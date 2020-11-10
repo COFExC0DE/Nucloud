@@ -8,9 +8,14 @@
     <h5>@String.Format("Website: {0}", Model.Website)</h5>
     <h5>@String.Format("Phone: {0}", Model.PhoneNumber)</h5>
     <h5>@String.Format("Code: {0}", Model.Cod)</h5>
+    <h5>@String.Format("Chief: {0} {1}", Model.Coordination.Chief.Name, Model.Coordination.Chief.LastName)</h5>
 
     <a a class="nav-link text-dark" asp-area="" asp-controller="Organization" asp-action="AddZone" asp-route-cod="@Model.Cod">
         <h6>Add zone</h6>
+    </a>
+
+    <a a class="nav-link text-dark" asp-area="" asp-controller="Organization" asp-action="AddChief" asp-route-cod="@Model.Cod">
+        <h6>Add chief</h6>
     </a>
 
     <h6>Zones</h6>

@@ -15,6 +15,19 @@
         <h6>Assign monitor</h6>
     </a>
 
+    <a a class="nav-link text-dark" asp-area="" asp-controller="Group" asp-action="AssignLeader" asp-route-cod="@Model.Cod">
+        <h6>Select leader</h6>
+    </a>
+
+    <h6>@String.Format("Coach: {0} {1}", Model.Coach.Name, Model.Coach.LastName)</h6>
+
+    <h6>Leaders</h6>
+    @foreach (Member n in Model.Leaders) {
+        <a a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="Member" asp-route-ced="@n.Ced">
+            @String.Format("{0} {1}", n.Name, n.LastName)
+        </a>
+    }
+
     <h6>Members</h6>
     @foreach (Member n in Model.Members) {
         <a a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="Member" asp-route-ced="@n.Ced">

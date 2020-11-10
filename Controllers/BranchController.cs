@@ -17,6 +17,7 @@ namespace NuCloudWeb.Controllers {
             Branch n = await DB.Instance.GetBranch(cod);
             n.Children = await DB.Instance.BranchGroups(cod);
             n.Members = await DB.Instance.GetMembersOfNode(cod, "Rama");
+            n.Leaders = await DB.Instance.GetLeaders("Rama", cod);
             return View(n);
         }
 
@@ -47,6 +48,25 @@ namespace NuCloudWeb.Controllers {
         [Route("Branch/AddMember/{cod:int}")]
         public IActionResult AddMember([FromRoute] int cod, Chanchito c) {
             DB.Instance.AddMemberToBranch(cod, c.Id);
+            return Redirect(Request.Headers["Referer"].ToString());
+        }
+
+        [HttpGet]
+        [Route("Branch/AssignLeader/{cod:int}")]
+        public async Task<ActionResult> AssignLeader([FromRoute] int cod) {
+            Chanchito chanchito = new Chanchito {
+                Members = await DB.Instance.GetMembersOfNode(cod, "Rama")
+            };
+
+            return View(chanchito);
+        }
+
+        [HttpPost]
+        [Route("Branch/AssignLeader/{cod:int}")]
+        public async Task<ActionResult> AssignLeader([FromRoute] int cod, Chanchito c) {
+            DB.Instance.MakeMemberNodeLeader(cod, c.Id, "Rama");
+            int i = await DB.Instance.GetParenCode("Zona", "Rama", cod);
+            DB.Instance.AddMemberToZone(cod, c.Id);
             return Redirect(Request.Headers["Referer"].ToString());
         }
     }
