@@ -16,6 +16,7 @@
         }
     </style>
 
+<<<<<<< HEAD
     <div class="text-center">
         <table class="border:1px solid black; center" style="border:1px solid black;margin-left:auto;margin-right:auto;">
             <tr>
@@ -62,5 +63,17 @@
             </tbody>
         </table>
     </div>
+=======
+    <a a class="nav-link text-dark" asp-area="" asp-controller="Branch" asp-action="AddMember" asp-route-cod="@Model.Cod">
+        <h6>Add member</h6>
+    </a>
+
+    <h6>Groups</h6>
+    @foreach (Group n in Model.Children) {
+        <a a class="nav-link text-dark" asp-area="" asp-controller="Group" asp-action="Group" asp-route-cod="@n.Cod">
+            @String.Format("{0} {1}", n.Cod, n.Name)
+        </a>
+    }
+>>>>>>> 773f495bc502aa948407a8ec92c0debdbab16aca
 
 </div>
