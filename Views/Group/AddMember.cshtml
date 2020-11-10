@@ -3,7 +3,11 @@
 @{
     ViewData["Title"] = "AddMember";
 }
-
+<style>
+    div {
+        padding: 10px;
+    }
+</style>
 
 <div class="text-center">
     @using (Html.BeginForm("AddMember", "Group", FormMethod.Post)) {

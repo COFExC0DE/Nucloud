@@ -4,7 +4,11 @@
     ViewData["Title"] = "AddMember";
 }
 
-
+<style>
+    div {
+        padding: 10px;
+    }
+</style>
 <div class="text-center">
     @using (Html.BeginForm("AddMember", "Member", FormMethod.Post)) {
         <table cellpadding="0" cellspacing="0">
