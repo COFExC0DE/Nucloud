@@ -10,18 +10,57 @@
     <a a class="nav-link text-dark" asp-area="" asp-controller="Branch" asp-action="AddGroup" asp-route-cod="@Model.Cod">
         <h6>Add group</h6>
     </a>
+    <style>
+        div {
+            padding: 10px;
+        }
+    </style>
 
-    <h6>Groups</h6>
-    @foreach (Group n in Model.Children) {
-        <a a class="nav-link text-dark" asp-area="" asp-controller="Group" asp-action="Group" asp-route-cod="@n.Cod">
-            @String.Format("{0} {1}", n.Cod, n.Name)
-        </a>
-    }
+    <div class="text-center">
+        <table class="border:1px solid black; center" style="border:1px solid black;margin-left:auto;margin-right:auto;">
+            <tr>
+            <thead>
+                <tr>
+                    <th scope="col">Groups</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>
+                        @foreach (Group n in Model.Children)
+                        {
+                            <a a class="nav-link text-dark" asp-area="" asp-controller="Group" asp-action="Group" asp-route-cod="@n.Cod">
+                                @String.Format("{0} {1}", n.Cod, n.Name)
+                            </a>
+                        }
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-    <h6>Members</h6>
-    @foreach (Member n in Model.Members) {
-        <a a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="Member" asp-route-ced="@n.Ced">
-            @String.Format("{0} {1}", n.Name, n.LastName)
-        </a>
-    }
+
+    <div class="text-center">
+        <table class="border:1px solid black; center" style="border:1px solid black;margin-left:auto;margin-right:auto;">
+            <tr>
+            <thead>
+                <tr>
+                    <th scope="col">Members</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>
+                        @foreach (Member n in Model.Members)
+                        {
+                            <a a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="Member" asp-route-ced="@n.Ced">
+                                @String.Format("{0} {1}", n.Name, n.LastName)
+                            </a>
+                        }
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
 </div>

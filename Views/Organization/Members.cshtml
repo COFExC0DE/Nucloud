@@ -4,11 +4,34 @@
     ViewData["Title"] = "Member";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Member list</h1>
-    @foreach(Member m in Model) {
-        <a a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="Member" asp-route-ced="@m.Ced">
-            @String.Format("{0} {1}", m.Name, m.LastName)
-        </a>
+<style>
+    div {
+        padding: 10px;
     }
+</style>
+<div class="text-center">
+    <table class="border:1px solid black; center" style="border:1px solid black;margin-left:auto;margin-right:auto;">
+        <tr>
+        <thead>
+            <tr>
+                <th scope="col">Members</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>
+                    @foreach (Member m in Model)
+                    {
+                        <a a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="Member" asp-route-ced="@m.Ced">
+                            @String.Format("{0} {1}", m.Name, m.LastName)
+                        </a>
+                    }
+                </th>
+            </tr>
+        </tbody>
+    </table>
 </div>
+
+
+
+
