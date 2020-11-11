@@ -1,0 +1,33 @@
+﻿@model NuCloudWeb.Models.Branch
+
+@{
+    ViewData["Title"] = "AddBranch";
+}
+<style>
+    div {
+        padding: 0px;
+    }
+</style>
+<div class="login-box">
+    <div  class="text-center user-box">
+        @using (Html.BeginForm("AddBranch", "Zone", FormMethod.Post))
+        {
+        <table cellpadding="0" cellspacing="0">
+            <tr>
+                <th colspan="2" align="center">Member details</th>
+            </tr>
+            <tr>
+                <td>Code</td>
+                <td>@Html.TextBoxFor(m => m.Cod)</td>
+            </tr>
+            <tr>
+                <td>Name</td>
+                <td>@Html.TextBoxFor(m => m.Name)</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><br /><br/><input type="submit" value="Create" /></td>
+            </tr>
+        </table>}
+    </div>
+</div>

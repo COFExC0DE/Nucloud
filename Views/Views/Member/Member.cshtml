@@ -1,0 +1,33 @@
+﻿@model NuCloudWeb.Models.Member
+
+@{
+    ViewData["Title"] = "Member";
+}
+
+<h2>@String.Format("{0} {1}", Model.Name, Model.LastName)</h2>
+<style>
+    div {
+        padding: 0px;
+    }
+</style>
+<div class="login-box">
+    <div class="text-center">
+        <table class="border:1px solid black; center" style="border:1px solid black;margin-left:auto;margin-right:auto;">
+            <tr>
+            <thead>
+                <tr>
+                    <th scope="col">ID Number</th>
+                    <th scope="col">Phone Number</th>
+                    <th scope="col">Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>@Model.Ced</th>
+                    <th>@Model.Phone</th>
+                    <th>@Model.Email</th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+ </div>

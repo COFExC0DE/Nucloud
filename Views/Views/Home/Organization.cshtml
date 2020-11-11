@@ -1,0 +1,54 @@
+﻿@model List<NuCloudWeb.Models.Cloud>
+
+@{
+    ViewData["Title"] = "Member";
+}
+<div class="login-box">
+    <div class="text-center">
+        <h3 class="display-4">Organizations</h3>
+        <table class="border:1px solid black; center" style="border:1px solid black;margin-left:auto;margin-right:auto;">
+            <tr>
+            <thead>
+                <tr>
+                    <th scope="col">ADD CLOUD</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>
+                        <a a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="AddCloud"> Add cloud </a>
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <style>
+        div {
+            padding: 0px;
+        }
+    </style>
+
+    <br/>
+    <div class="text-center">
+        <table class="border:1px solid black; center" style="border:1px solid black;margin-left:auto;margin-right:auto;">
+            <tr>
+            <thead>
+                <tr>
+                    <th scope="col">Clouds</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>
+                        @foreach (Cloud m in Model)
+                        {
+            <a class="nav-link text-dark" asp-area="" asp-controller="Organization" asp-action="Cloud" asp-route-cod="@m.Cod">
+                @String.Format("{0}. {1}", m.Cod, m.Name)
+            </a>}
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
