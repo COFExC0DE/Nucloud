@@ -4,7 +4,7 @@
     ViewData["Title"] = "Group";
 }
 <div class="login-box">
-    <div class="text-center">
+    <div class="text-center user-box">
         <h3>@String.Format("{0} {1}", Model.Cod, Model.Name)</h3>
 
         <a a class="nav-link text-dark" asp-area="" asp-controller="Group" asp-action="AddMember" asp-route-cod="@Model.Cod">
@@ -12,7 +12,7 @@
         </a>
         <style>
             div {
-                padding: 10px;
+                padding: 0px;
             }
         </style>
         <a a class="nav-link text-dark" asp-area="" asp-controller="Group" asp-action="AssignMonitor" asp-route-cod="@Model.Cod">
@@ -38,15 +38,15 @@
                         <th>
                             @foreach (Member n in Model.Leaders)
                             {
-                            <a a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="Member" asp-route-ced="@n.Ced">
-                                @String.Format("{0} {1}", n.Name, n.LastName)
-                            </a>}
+                <a a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="Member" asp-route-ced="@n.Ced">
+                    @String.Format("{0} {1}", n.Name, n.LastName)
+                </a>}
                         </th>
                     </tr>
                 </tbody>
             </table>
         </div>
-
+        <br />
         <div class="text-center">
             <table class="border:1px solid black; center" style="border:1px solid black;margin-left:auto;margin-right:auto;">
                 <tr>
@@ -60,9 +60,9 @@
                         <th>
                             @foreach (Member n in Model.Members)
                             {
-                            <a a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="Member" asp-route-ced="@n.Ced">
-                                @String.Format("{0} {1}", n.Name, n.LastName)
-                            </a>}
+                <a a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="Member" asp-route-ced="@n.Ced">
+                    @String.Format("{0} {1}", n.Name, n.LastName)
+                </a>}
                         </th>
                     </tr>
                 </tbody>
