@@ -2,89 +2,89 @@
 @{
     ViewData["Title"] = "Zones";
 }
-
-<div class="text-center">
-    <h3>@Model.Name</h3>
-
+<div class="login-box">
     <div class="text-center">
-        <table class="border:1px solid black; center" style="border:1px solid black;margin-left:auto;margin-right:auto;">
-            <tr>
-            <thead>
+
+        <h3 style="color:white;">@Model.Name</h3>
+        <div class="text-center">
+            <table class="border:1px solid black; center" style="border:1px solid black;margin-left:auto;margin-right:auto;">
                 <tr>
-                    <th scope="col">Website</th>
-                    <th scope="col">Phone</th>
-                    <th scope="col">Code</th>
-                    <th scope="col">Chief</th>
-                </tr>
-            </thead>
-            <tbody>
+                <thead>
+                    <tr>
+                        <th scope="col">Website</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Code</th>
+                        <th scope="col">Chief</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>@Model.Website</th>
+                        <th>@Model.PhoneNumber</th>
+                        <th>@Model.Cod</th>
+                        <th>@String.Format("{0} {1}", Model.Coordination.Chief.Name, Model.Coordination.Chief.LastName)</th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <a a class="nav-link text-dark" asp-area="" asp-controller="Organization" asp-action="AddZone" asp-route-cod="@Model.Cod">
+            <h6>Add zone</h6>
+        </a>
+
+        <a a class="nav-link text-dark" asp-area="" asp-controller="Organization" asp-action="AddChief" asp-route-cod="@Model.Cod">
+            <h6>Add chief</h6>
+        </a>
+
+        <div class="text-center">
+            <table class="border:1px solid black; center" style="border:1px solid black;margin-left:auto;margin-right:auto;">
                 <tr>
-                    <th>@Model.Website</th>
-                    <th>@Model.PhoneNumber</th>
-                    <th>@Model.Cod</th>
-                    <th>@String.Format("{0} {1}", Model.Coordination.Chief.Name, Model.Coordination.Chief.LastName)</th>
-                </tr>
-            </tbody>
-        </table>
+                <thead>
+                    <tr>
+                        <th scope="col">Zones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>
+                            @foreach (Zone n in Model.Coordination.Children)
+                            {
+                            <a a class="nav-link text-dark" asp-area="" asp-controller="Zone" asp-action="Zone" asp-route-cod="@n.Cod">
+                                @String.Format("{0} {1}", n.Cod, n.Name)
+                            </a>}
+                        </th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
-    <a a class="nav-link text-dark" asp-area="" asp-controller="Organization" asp-action="AddZone" asp-route-cod="@Model.Cod">
-        <h6>Add zone</h6>
-    </a>
-
-    <a a class="nav-link text-dark" asp-area="" asp-controller="Organization" asp-action="AddChief" asp-route-cod="@Model.Cod">
-        <h6>Add chief</h6>
-    </a>
+    <style>
+        div {
+            padding: 10px;
+        }
+    </style>
 
     <div class="text-center">
         <table class="border:1px solid black; center" style="border:1px solid black;margin-left:auto;margin-right:auto;">
             <tr>
             <thead>
                 <tr>
-                    <th scope="col">Zones</th>
+                    <th scope="col">Members</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <th>
-                        @foreach (Zone n in Model.Coordination.Children) {
-                            <a a class="nav-link text-dark" asp-area="" asp-controller="Zone" asp-action="Zone" asp-route-cod="@n.Cod">
-                                @String.Format("{0} {1}", n.Cod, n.Name)
-                            </a>
-                        }
+                        @foreach (Member n in Model.Coordination.Members)
+                        {
+                        <a a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="Member" asp-route-ced="@n.Ced">
+                            @String.Format("{0} {1}", n.Name, n.LastName)
+                        </a>}
+
                     </th>
                 </tr>
             </tbody>
         </table>
     </div>
-</div>
-
-<style>
-    div {
-        padding: 10px;
-    }
-</style>
-
-<div class="text-center">
-    <table class="border:1px solid black; center" style="border:1px solid black;margin-left:auto;margin-right:auto;">
-        <tr>
-        <thead>
-            <tr>
-                <th scope="col">Members</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th>
-                    @foreach (Member n in Model.Coordination.Members)
-                    {
-                        <a a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="Member" asp-route-ced="@n.Ced">
-                            @String.Format("{0} {1}", n.Name, n.LastName)
-                        </a>
-                    }
-
-                </th>
-            </tr>
-        </tbody>
-    </table>
 </div>
