@@ -6,30 +6,31 @@
 
 <style>
     div {
-        padding: 10px;
+        padding: 0px;
     }
 </style>
 <div class="text-center">
-    <table class="border:1px solid black; center" style="border:1px solid black;margin-left:auto;margin-right:auto;">
-        <tr>
-        <thead>
+    <div class="login-box">
+        <table class="border:1px solid black; center" style="border:1px solid black;margin-left:auto;margin-right:auto;">
             <tr>
-                <th scope="col">Members</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th>
-                    @foreach (Member m in Model)
-                    {
+            <thead>
+                <tr>
+                    <th scope="col">Members</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>
+                        @foreach (Member m in Model)
+                        {
                         <a a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="Member" asp-route-ced="@m.Ced">
                             @String.Format("{0} {1}", m.Name, m.LastName)
-                        </a>
-                    }
-                </th>
-            </tr>
-        </tbody>
-    </table>
+                        </a>}
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 

@@ -8,11 +8,11 @@
         padding: 10px;
     }
 </style>
-
-<div class="text-center">
-    @using (Html.BeginForm("AddMember", "Group", FormMethod.Post)) {
-        @Html.DropDownListFor(m => m.Ced, Model.Members.Select(x => new SelectListItem { Text=String.Format("{0} {1}", x.Name, x.LastName), Value=x.Ced }), "Select Item", new { @class = "form-control" })
-        <p></p>
-        <input type="submit" value="Add" />
-    }
+<div class="login-box">
+    <div class="text-center user-box">
+        @using (Html.BeginForm("AddMember", "Group", FormMethod.Post))
+        {
+        @Html.DropDownListFor(m => m.Ced, Model.Members.Select(x => new SelectListItem { Text = String.Format("{0} {1}", x.Name, x.LastName), Value = x.Ced }), "Select Item", new { @class = "form-control" })
+                    <br /><br /><input type="submit" value="Add" />}
+    </div>
 </div>

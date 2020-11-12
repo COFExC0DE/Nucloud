@@ -4,84 +4,87 @@
     ViewData["Title"] = "Zone";
 }
 
-<div class="text-center">
-    <h3>@String.Format("{0} {1}", Model.Cod, Model.Name)</h3>
-
-    <a a class="nav-link text-dark" asp-area="" asp-controller="Zone" asp-action="AddBranch" asp-route-cod="@Model.Cod">
-        <h6>Add branch</h6>
-    </a>
-
-    <a a class="nav-link text-dark" asp-area="" asp-controller="Zone" asp-action="AssignLeader" asp-route-cod="@Model.Cod">
-        <h6>Select leader</h6>
-    </a>
-
+<div class="login-box">
     <div class="text-center">
-        <table class="border:1px solid black; center" style="border:1px solid black;margin-left:auto;margin-right:auto;">
-            <tr>
-            <thead>
-                <tr>
-                    <th scope="col">Leaders</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th>
-                        @foreach (Member n in Model.Leaders) {
-                            <a a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="Member" asp-route-ced="@n.Ced">
-                                @String.Format("{0} {1}", n.Name, n.LastName)
-                            </a>
-                        }
-                    </th>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+        <h3>@String.Format("{0} {1}", Model.Cod, Model.Name)</h3>
 
-    <div class="text-center">
-        <table class="border:1px solid black; center" style="border:1px solid black;margin-left:auto;margin-right:auto;">
-            <tr>
-            <thead>
+        <a a class="nav-link text-dark" asp-area="" asp-controller="Zone" asp-action="AddBranch" asp-route-cod="@Model.Cod">
+            <h6>Add branch</h6>
+        </a>
+
+        <a a class="nav-link text-dark" asp-area="" asp-controller="Zone" asp-action="AssignLeader" asp-route-cod="@Model.Cod">
+            <h6>Select leader</h6>
+        </a>
+
+        <div class="text-center">
+            <table class="border:1px solid black; center" style="border:1px solid black;margin-left:auto;margin-right:auto;">
                 <tr>
-                    <th scope="col">Branches</th>
-                </tr>
-            </thead>
-            <tbody>
+                <thead>
+                    <tr>
+                        <th scope="col">Leaders</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>
+                            @foreach (Member n in Model.Leaders)
+                            {
+                <a a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="Member" asp-route-ced="@n.Ced">
+                    @String.Format("{0} {1}", n.Name, n.LastName)
+                </a>}
+                        </th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <br />
+        <div class="text-center">
+            <table class="border:1px solid black; center" style="border:1px solid black;margin-left:auto;margin-right:auto;">
                 <tr>
-                    <th>
-                        @foreach (Branch n in Model.Children) {
-                            <a a class="nav-link text-dark" asp-area="" asp-controller="Branch" asp-action="Branch" asp-route-cod="@n.Cod">
-                                @String.Format("{0} {1}", n.Cod, n.Name)
-                            </a>
-                        }
-                    </th>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <style>
-        div {
-            padding: 10px;
-        }
-    </style>
-    <div class="text-center">
-        <table class="border:1px solid black; center" style="border:1px solid black;margin-left:auto;margin-right:auto;">
-            <tr>
-            <thead>
+                <thead>
+                    <tr>
+                        <th scope="col">Branches</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>
+                            @foreach (Branch n in Model.Children)
+                            {
+                <a a class="nav-link text-dark" asp-area="" asp-controller="Branch" asp-action="Branch" asp-route-cod="@n.Cod">
+                    @String.Format("{0} {1}", n.Cod, n.Name)
+                </a>}
+                        </th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <style>
+            div {
+                padding: 0px;
+            }
+        </style>
+        <br />
+        <div class="text-center">
+            <table class="border:1px solid black; center" style="border:1px solid black;margin-left:auto;margin-right:auto;">
                 <tr>
-                    <th scope="col">Members</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th>
-                        @foreach (Member n in Model.Members) {
-                            <a a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="Member" asp-route-ced="@n.Ced">
-                                @String.Format("{0} {1}", n.Name, n.LastName)
-                            </a>
-                        }
-                    </th>
-                </tr>
-            </tbody>
-        </table>
+                <thead>
+                    <tr>
+                        <th scope="col">Members</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>
+                            @foreach (Member n in Model.Members)
+                            {
+                <a a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="Member" asp-route-ced="@n.Ced">
+                    @String.Format("{0} {1}", n.Name, n.LastName)
+                </a>}
+                        </th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
