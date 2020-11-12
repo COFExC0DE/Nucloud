@@ -1,14 +1,17 @@
 ﻿@model NuCloudWeb.Controllers.Chanchito
 
 @{
-    ViewData["Title"] = "AssignMonitor";
+    ViewData["Title"] = "MoveMember";
 }
 
 
 <div class="text-center">
-    @using (Html.BeginForm("AssignMonitor", "Group", FormMethod.Post)) {
+    @using (Html.BeginForm("MoveMember", "Group", FormMethod.Post)) {
         @Html.DropDownListFor(m => m.Ced, Model.Members.Select(x => new SelectListItem { Text = String.Format("{0} {1}", x.Name, x.LastName), Value = x.Ced }), "Select Item", new { @class = "form-control" })
         <p></p>
+        @Html.DropDownListFor(m => m.Cod, Model.Groups.Select(x => new SelectListItem { Text = String.Format("{0} {1}", x.Cod, x.Name), Value = x.Cod.ToString() }), "Select Item", new { @class = "form-control" })
+        <p></p>
         <input type="submit" value="Assign" />
-    }
+     }
+
 </div>
