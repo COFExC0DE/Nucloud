@@ -322,6 +322,19 @@ namespace NuCloudWeb.Controllers {
                 .ExecuteWithoutResultsAsync();
         }
 
+
+        public async void RemoveMember(string node, int cod, string ced) {
+            await Client.ConnectAsync();
+
+            await Client.Cypher
+                .Match(String.Format("(m:Miembro)-[r:MemberOf]->(n:{0})", node))
+                .Where("m.Ced = {ced}")
+                .AndWhere("n.Cod = {cod}")
+                .Delete("r")
+                .WithParams(new { cod = cod, ced = ced })
+                .ExecuteWithoutResultsAsync();
+        }
+
         public async void MakeMemberNodeLeader(int cod, string ced, string n) {
             await Client.ConnectAsync();
 
@@ -525,7 +538,7 @@ namespace NuCloudWeb.Controllers {
             return Chiefs.Count > 0 ? Chiefs[0] : new Chief() {  Name = "Node", LastName = ""};
         }
 
-        public async Task<int> GetParenCode(string parent, string child, int cod) {
+        public async Task<int> GetParentCode(string parent, string child, int cod) {
             IResultCursor cursor;
             var code = new List<int>();
             IAsyncSession session = DB.Instance.Driver.AsyncSession();

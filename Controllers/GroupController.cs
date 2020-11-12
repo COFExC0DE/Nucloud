@@ -37,7 +37,7 @@ namespace NuCloudWeb.Controllers {
         //Instance to add member to a group
         [Route("Group/AddMember/{cod:int}")]
         public IActionResult AddMember([FromRoute] int cod, Chanchito c) {
-            DB.Instance.AddMemberToGroup(cod, c.Id);
+            DB.Instance.AddMemberToGroup(cod, c.Ced);
             return Redirect(Request.Headers["Referer"].ToString());
         }
 
@@ -56,7 +56,7 @@ namespace NuCloudWeb.Controllers {
         //Instance to assign monitor
         [Route("Group/AssignMonitor/{cod:int}")]
         public IActionResult AssignMonitor([FromRoute] int cod, Chanchito c) {
-            DB.Instance.MakeMemberMonitor(cod, c.Id);
+            DB.Instance.MakeMemberMonitor(cod, c.Ced);
             return Redirect(Request.Headers["Referer"].ToString());
         }
 
@@ -75,15 +75,37 @@ namespace NuCloudWeb.Controllers {
         [HttpPost]
         [Route("Group/AssignLeader/{cod:int}")]
         public async Task<ActionResult> AssignLeader([FromRoute] int cod, Chanchito c) {
-            DB.Instance.MakeMemberNodeLeader(cod, c.Id, "Grupo");
-            int i = await DB.Instance.GetParenCode("Rama", "Grupo", cod);
-            DB.Instance.AddMemberToBranch(cod, c.Id);
+            DB.Instance.MakeMemberNodeLeader(cod, c.Ced, "Grupo");
+            int i = await DB.Instance.GetParentCode("Rama", "Grupo", cod);
+            DB.Instance.AddMemberToBranch(cod, c.Ced);
+            return Redirect(Request.Headers["Referer"].ToString());
+        }
+
+        [HttpGet]
+        [Route("Group/MoveMember/{cod:int}")]
+        public async Task<ActionResult> MoveMember([FromRoute] int cod) {
+            int c = await DB.Instance.GetParentCode("Rama", "Grupo", cod);
+            Chanchito chanchito = new Chanchito {
+                Members = await DB.Instance.GetMembersOfNode(cod, "Grupo"),
+                Groups = await DB.Instance.BranchGroups(c)
+            };
+
+            return View(chanchito);
+        }
+
+        [HttpPost]
+        [Route("Group/MoveMember/{cod:int}")]
+        public async Task<ActionResult> MoveMember([FromRoute] int cod, Chanchito c) {
+            DB.Instance.RemoveMember("Grupo", cod, c.Ced);
+            DB.Instance.AddMemberToGroup(c.Cod, c.Ced);
             return Redirect(Request.Headers["Referer"].ToString());
         }
     }
 
     public class Chanchito {
-        public string Id { get; set; }
+        public string Ced { get; set; }
+        public int Cod { get; set; }
         public List<Member> Members { get; set; }
+        public List<Group> Groups { get; set; }
     }
 }

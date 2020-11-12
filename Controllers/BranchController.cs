@@ -54,7 +54,7 @@ namespace NuCloudWeb.Controllers {
         //Instance to add members
         [Route("Branch/AddMember/{cod:int}")]
         public IActionResult AddMember([FromRoute] int cod, Chanchito c) {
-            DB.Instance.AddMemberToBranch(cod, c.Id);
+            DB.Instance.AddMemberToBranch(cod, c.Ced);
             return Redirect(Request.Headers["Referer"].ToString());
         }
 
@@ -73,9 +73,9 @@ namespace NuCloudWeb.Controllers {
         //Instance to asign a Leader
         [Route("Branch/AssignLeader/{cod:int}")]
         public async Task<ActionResult> AssignLeader([FromRoute] int cod, Chanchito c) {
-            DB.Instance.MakeMemberNodeLeader(cod, c.Id, "Rama");
-            int i = await DB.Instance.GetParenCode("Zona", "Rama", cod);
-            DB.Instance.AddMemberToZone(cod, c.Id);
+            DB.Instance.MakeMemberNodeLeader(cod, c.Ced, "Rama");
+            int i = await DB.Instance.GetParentCode("Zona", "Rama", cod);
+            DB.Instance.AddMemberToZone(cod, c.Ced);
             return Redirect(Request.Headers["Referer"].ToString());
         }
     }
