@@ -12,6 +12,7 @@ namespace NuCloudWeb.Controllers {
         }
 
         [HttpGet]
+        //Instance to call the view
         [Route("Group/Group/{cod:int}")]
         public async Task<ActionResult> Group([FromRoute] int cod) {
             Group n = await DB.Instance.GetGroup(cod);
@@ -22,6 +23,7 @@ namespace NuCloudWeb.Controllers {
         }
 
         [HttpGet]
+        //Instance to get member
         [Route("Group/AddMember/{cod:int}")]
         public async Task<ActionResult> AddMember([FromRoute] int cod) {
             List<Member> t = await DB.Instance.GetMembers();
@@ -32,6 +34,7 @@ namespace NuCloudWeb.Controllers {
         }
 
         [HttpPost]
+        //Instance to add member to a group
         [Route("Group/AddMember/{cod:int}")]
         public IActionResult AddMember([FromRoute] int cod, Chanchito c) {
             DB.Instance.AddMemberToGroup(cod, c.Ced);
@@ -39,6 +42,7 @@ namespace NuCloudWeb.Controllers {
         }
 
         [HttpGet]
+        //Instance to Get Monitors
         [Route("Group/AssignMonitor/{cod:int}")]
         public async Task<ActionResult> AssignMonitor([FromRoute] int cod) {
             List<Member> t = await DB.Instance.GetMonitors();
@@ -49,6 +53,7 @@ namespace NuCloudWeb.Controllers {
         }
 
         [HttpPost]
+        //Instance to assign monitor
         [Route("Group/AssignMonitor/{cod:int}")]
         public IActionResult AssignMonitor([FromRoute] int cod, Chanchito c) {
             DB.Instance.MakeMemberMonitor(cod, c.Ced);
@@ -56,6 +61,7 @@ namespace NuCloudWeb.Controllers {
         }
 
         [HttpGet]
+        //Instance to asign leader
         [Route("Group/AssignLeader/{cod:int}")]
         public async Task<ActionResult> AssignLeader([FromRoute] int cod) {
             Chanchito chanchito = new Chanchito {
@@ -65,6 +71,7 @@ namespace NuCloudWeb.Controllers {
             return View(chanchito);
         }
 
+        //Instance to make a member a group Leader
         [HttpPost]
         [Route("Group/AssignLeader/{cod:int}")]
         public async Task<ActionResult> AssignLeader([FromRoute] int cod, Chanchito c) {

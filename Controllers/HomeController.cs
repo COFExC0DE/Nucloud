@@ -15,10 +15,12 @@ namespace NuCloudWeb.Controllers {
             _logger = logger;
         }
 
+        //Instance that call the view
         public IActionResult Index() {
             return View();
         }
 
+        //Functions that get Clouds
         public async Task<ActionResult> Organization() {
             List<Cloud> t = await DB.Instance.GetClouds();
             return View(t);
@@ -26,16 +28,19 @@ namespace NuCloudWeb.Controllers {
 
 
         [HttpGet]
+        //Interface to Add Cloud
         public IActionResult AddCloud() {
             return View();
         }
 
         [HttpPost]
+        //Intance to call interface of cloud
         public IActionResult AddCloud(Cloud g) {
             DB.Instance.AddCloud(g);
             return View();
         }
 
+        //Instance that activate  an error
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error() {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

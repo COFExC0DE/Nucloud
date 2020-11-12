@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using NuCloudWeb.Models;
 
 namespace NuCloudWeb.Controllers {
+
+    //
     public class BranchController : Controller {
         public IActionResult Index() {
             return View();
@@ -13,6 +15,7 @@ namespace NuCloudWeb.Controllers {
 
         [HttpGet]
         [Route("Branch/Branch/{cod:int}")]
+        //Instances of database getters of a branch
         public async Task<ActionResult> Branch([FromRoute] int cod) {
             Branch n = await DB.Instance.GetBranch(cod);
             n.Children = await DB.Instance.BranchGroups(cod);
@@ -23,11 +26,13 @@ namespace NuCloudWeb.Controllers {
 
         [HttpGet]
         [Route("Branch/AddGroup/{cod:int}")]
+        //Interface for the Add Group view
         public IActionResult AddGroup([FromRoute] int cod) {            
             return View();
         }
 
         [HttpPost]
+        //Instance to add member add group
         [Route("Branch/AddGroup/{cod:int}")]
         public IActionResult AddGroup([FromRoute] int cod, Group g) {
             DB.Instance.AddGroup(cod, g);
@@ -35,6 +40,7 @@ namespace NuCloudWeb.Controllers {
         }
 
         [HttpGet]
+        //Instance to get Member
         [Route("Branch/AddMember/{cod:int}")]
         public async Task<ActionResult> AddMember([FromRoute] int cod) {
             List<Member> t = await DB.Instance.GetMembers();
@@ -45,12 +51,14 @@ namespace NuCloudWeb.Controllers {
         }
 
         [HttpPost]
+        //Instance to add members
         [Route("Branch/AddMember/{cod:int}")]
         public IActionResult AddMember([FromRoute] int cod, Chanchito c) {
             DB.Instance.AddMemberToBranch(cod, c.Ced);
             return Redirect(Request.Headers["Referer"].ToString());
         }
 
+        // Instance to assign Leader to Branch
         [HttpGet]
         [Route("Branch/AssignLeader/{cod:int}")]
         public async Task<ActionResult> AssignLeader([FromRoute] int cod) {
@@ -62,6 +70,7 @@ namespace NuCloudWeb.Controllers {
         }
 
         [HttpPost]
+        //Instance to asign a Leader
         [Route("Branch/AssignLeader/{cod:int}")]
         public async Task<ActionResult> AssignLeader([FromRoute] int cod, Chanchito c) {
             DB.Instance.MakeMemberNodeLeader(cod, c.Ced, "Rama");
