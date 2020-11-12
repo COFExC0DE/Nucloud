@@ -17,6 +17,7 @@ namespace NuCloudWeb.Controllers {
         }
 
         [HttpGet]
+        //Get Coordination instances
         [Route("Organization/Cloud/{cod:int}")]
         public async Task<ActionResult> Cloud([FromRoute] int cod) {
             Cloud cloud = await DB.Instance.GetCloud(cod);
@@ -28,12 +29,14 @@ namespace NuCloudWeb.Controllers {
         }
 
         [HttpGet]
+        //Function for Add Zone
         [Route("Organization/AddZone/{cod:int}")]
         public IActionResult AddZone() {
             return View();
         }
 
         [HttpPost]
+        //Instance that addZone
         [Route("Organization/AddZone/{cod:int}")]
         public IActionResult AddZone([FromRoute] int cod, Zone g) {
             DB.Instance.AddZone(cod, g);
@@ -41,12 +44,14 @@ namespace NuCloudWeb.Controllers {
         }
 
         [HttpGet]
+        //Call that insterface of AddChief
         [Route("Organization/AddChief/{cod:int}")]
         public IActionResult AddChief() {
             return View();
         }
 
         [HttpPost]
+        //View that adds Chief
         [Route("Organization/AddChief/{cod:int}")]
         public IActionResult AddChief([FromRoute] int cod, Chief chief) {
             DB.Instance.CreateChief(new Chief() {

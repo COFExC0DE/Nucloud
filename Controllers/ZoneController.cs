@@ -12,6 +12,7 @@ namespace NuCloudWeb.Controllers {
         }
 
         [HttpGet]
+        //
         [Route("Zone/Zone/{cod:int}")]
         public async Task<ActionResult> Zone([FromRoute] int cod) {
             Zone n = await DB.Instance.GetZone(cod);
@@ -22,12 +23,14 @@ namespace NuCloudWeb.Controllers {
         }
 
         [HttpGet]
+        //Call view to add branch
         [Route("Zone/AddBranch/{cod:int}")]
         public IActionResult AddBranch([FromRoute] int cod) {
             return View();
         }
 
         [HttpPost]
+        //Instance that refers to add Branch
         [Route("Zone/AddBranch/{cod:int}")]
         public IActionResult AddBranch([FromRoute] int cod, Branch g) {
             DB.Instance.AddBranch(cod, g);
@@ -45,6 +48,7 @@ namespace NuCloudWeb.Controllers {
         }
 
         [HttpPost]
+        //Gets Parent, makes a member a leader
         [Route("Zone/AssignLeader/{cod:int}")]
         public async Task<ActionResult> AssignLeader([FromRoute] int cod, Chanchito c) {
             DB.Instance.MakeMemberNodeLeader(cod, c.Id, "Zona");

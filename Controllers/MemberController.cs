@@ -13,6 +13,7 @@ namespace NuCloudWeb.Controllers {
         }
 
         [HttpGet]
+        //Instance that return view 
         [Route("Member/Member/{ced:int}")]
         public async Task<ActionResult> Member([FromRoute] int ced) {
             Member t = await DB.Instance.GetMember(ced.ToString());
@@ -20,11 +21,13 @@ namespace NuCloudWeb.Controllers {
         }
 
         [HttpGet]
+        //View to add member
         public IActionResult AddMember() {
             return View();
         }
 
         [HttpPost]
+        //Function that create a member
         public IActionResult AddMember(Member member) {
             long num = DB.Instance.CantMemberForCed(member.Ced).Result;
             if (num == 0)
