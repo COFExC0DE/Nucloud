@@ -49,7 +49,7 @@ namespace NuCloudWeb.Controllers {
         public async Task<ActionResult> AssignLeader([FromRoute] int cod, Chanchito c) {
             DB.Instance.MakeMemberNodeLeader(cod, c.Ced, "Zona");
             int i = await DB.Instance.GetParentCode("Coordination", "Zona", cod);
-            DB.Instance.AddMemberToCoord(cod, c.Ced);
+            DB.Instance.AddMemberToCoord(i, c.Ced);
             return Redirect(Request.Headers["Referer"].ToString());
         }
     }

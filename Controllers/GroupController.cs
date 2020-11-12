@@ -70,7 +70,7 @@ namespace NuCloudWeb.Controllers {
         public async Task<ActionResult> AssignLeader([FromRoute] int cod, Chanchito c) {
             DB.Instance.MakeMemberNodeLeader(cod, c.Ced, "Grupo");
             int i = await DB.Instance.GetParentCode("Rama", "Grupo", cod);
-            DB.Instance.AddMemberToBranch(cod, c.Ced);
+            DB.Instance.AddMemberToBranch(i, c.Ced);
             return Redirect(Request.Headers["Referer"].ToString());
         }
 
