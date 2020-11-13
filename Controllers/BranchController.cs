@@ -36,7 +36,7 @@ namespace NuCloudWeb.Controllers {
         [Route("Branch/AddGroup/{cod:int}")]
         public IActionResult AddGroup([FromRoute] int cod, Group g) {
             DB.Instance.AddGroup(cod, g);
-            return Redirect(Request.Headers["Referer"].ToString());
+            return RedirectToAction("Branch", "Branch", new { cod = cod });
         }
 
         [HttpGet]
@@ -55,7 +55,7 @@ namespace NuCloudWeb.Controllers {
         [Route("Branch/AddMember/{cod:int}")]
         public IActionResult AddMember([FromRoute] int cod, Chanchito c) {
             DB.Instance.AddMemberToBranch(cod, c.Ced);
-            return Redirect(Request.Headers["Referer"].ToString());
+            return RedirectToAction("Branch", "Branch", new { cod = cod });
         }
 
         // Instance to assign Leader to Branch
@@ -76,7 +76,7 @@ namespace NuCloudWeb.Controllers {
             DB.Instance.MakeMemberNodeLeader(cod, c.Ced, "Rama");
             int i = await DB.Instance.GetParentCode("Zona", "Rama", cod);
             DB.Instance.AddMemberToZone(i, c.Ced);
-            return Redirect(Request.Headers["Referer"].ToString());
+            return RedirectToAction("Branch", "Branch", new { cod = cod });
         }
     }
 }

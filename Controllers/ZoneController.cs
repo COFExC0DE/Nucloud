@@ -34,7 +34,7 @@ namespace NuCloudWeb.Controllers {
         [Route("Zone/AddBranch/{cod:int}")]
         public IActionResult AddBranch([FromRoute] int cod, Branch g) {
             DB.Instance.AddBranch(cod, g);
-            return Redirect(Request.Headers["Referer"].ToString());
+            return RedirectToAction("Zone", "Zone", new { cod = cod });
         }
 
         [HttpGet]
@@ -54,7 +54,7 @@ namespace NuCloudWeb.Controllers {
             DB.Instance.MakeMemberNodeLeader(cod, c.Ced, "Zona");
             int i = await DB.Instance.GetParentCode("Coordination", "Zona", cod);
             DB.Instance.AddMemberToCoord(i, c.Ced);
-            return Redirect(Request.Headers["Referer"].ToString());
+            return RedirectToAction("Zone", "Zone", new { cod = cod });
         }
     }
 }

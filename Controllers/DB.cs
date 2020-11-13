@@ -29,6 +29,12 @@ namespace NuCloudWeb.Controllers {
             public long Num { get; set; }
         }
 
+        public void SetDriver(string uri, string user, string password) {
+            Driver = GraphDatabase.Driver(uri, AuthTokens.Basic(user, password));
+            Client = new BoltGraphClient(uri, user, password);
+        }
+
+
         public async Task<Coordination> GetCoordination(int cod) {
             IResultCursor cursor;
             var Coordinations = new List<Coordination>();
@@ -45,11 +51,6 @@ namespace NuCloudWeb.Controllers {
             return Coordinations[0];
         }
 
-        public void SetDriver(string uri, string user, string password) {
-            Driver = GraphDatabase.Driver(uri, AuthTokens.Basic(user, password));
-            Client = new BoltGraphClient(uri, user, password);
-        }
-
         internal async void AddCloud(Cloud g) {
             await Client.ConnectAsync();
 
@@ -63,6 +64,57 @@ namespace NuCloudWeb.Controllers {
                     }
                 })
                 .ExecuteWithoutResultsAsync();
+        }
+
+        public async Task<List<Node>> GetLeads(string ced) {
+            IResultCursor cursor;
+            var cloud = new List<Node>();
+            IAsyncSession session = DB.Instance.Driver.AsyncSession();
+            try {
+                cursor = await session.RunAsync(String.Format(@"MATCH (m:Miembro)-[:LeaderOf]->(a) WHERE m.Ced = '{0}'
+                                                RETURN a.Name, a.Cod", ced));
+                cloud = await cursor.ToListAsync(record => new Node() {
+                    Name = record["a.Name"].As<string>(),
+                    Cod = Int32.Parse(record["a.Cod"].As<string>())
+                });
+            } finally {
+                await session.CloseAsync();
+            }
+            return cloud;
+        }
+
+        public async Task<List<Node>> MemberOf(string ced) {
+            IResultCursor cursor;
+            var cloud = new List<Node>();
+            IAsyncSession session = DB.Instance.Driver.AsyncSession();
+            try {
+                cursor = await session.RunAsync(String.Format(@"MATCH (m:Miembro)-[:MemberOf]->(a) WHERE m.Ced = '{0}'
+                                                RETURN a.Name, a.Cod", ced));
+                cloud = await cursor.ToListAsync(record => new Node() {
+                    Name = record["a.Name"].As<string>(),
+                    Cod = Int32.Parse(record["a.Cod"].As<string>())
+                });
+            } finally {
+                await session.CloseAsync();
+            }
+            return cloud;
+        }
+
+        public async Task<List<Group>> GetCoaches(string ced) {
+            IResultCursor cursor;
+            var cloud = new List<Group>();
+            IAsyncSession session = DB.Instance.Driver.AsyncSession();
+            try {
+                cursor = await session.RunAsync(String.Format(@"MATCH (m:Miembro)-[:MonitorOf]->(a:Grupo) WHERE m.Ced = '{0}'
+                                                RETURN a.Name, a.Cod", ced));
+                cloud = await cursor.ToListAsync(record => new Group() {
+                    Name = record["a.Name"].As<string>(),
+                    Cod = Int32.Parse(record["a.Cod"].As<string>())
+                });
+            } finally {
+                await session.CloseAsync();
+            }
+            return cloud;
         }
 
         public async Task<List<Cloud>> GetClouds() {
@@ -517,7 +569,7 @@ namespace NuCloudWeb.Controllers {
             return Groups[0];
         }
 
-        public async Task<Chief> GetChief(int cod) {
+        public async Task<Chief> GetChiefOfCloud(int cod) {
             IResultCursor cursor;
             var Chiefs = new List<Chief>();
             IAsyncSession session = DB.Instance.Driver.AsyncSession();
@@ -536,6 +588,27 @@ namespace NuCloudWeb.Controllers {
                 await session.CloseAsync();
             }
             return Chiefs.Count > 0 ? Chiefs[0] : new Chief() {  Name = "Node", LastName = ""};
+        }
+
+        public async Task<Chief> GetChief(string ced) {
+            IResultCursor cursor;
+            var Chiefs = new List<Chief>();
+            IAsyncSession session = DB.Instance.Driver.AsyncSession();
+            try {
+                cursor = await session.RunAsync(String.Format(@"MATCH (a:Chief)-[:ChiefOf]->(:Cloud) WHERE a.Ced = '{0}' return a.Name, a.LastName, a.Ced, a.Email, a.Phone, a.Start, a.End", ced));
+                Chiefs = await cursor.ToListAsync(record => new Chief() {
+                    Name = record["a.Name"].As<string>(),
+                    LastName = record["a.LastName"].As<string>(),
+                    Phone = Int32.Parse(record["a.Phone"].As<string>()),
+                    Email = record["a.Email"].As<string>(),
+                    Ced = record["a.Ced"].As<string>(),
+                    Start = record["a.Start"].As<string>(),
+                    End = record["a.End"].As<string>()
+                });
+            } finally {
+                await session.CloseAsync();
+            }
+            return Chiefs[0];
         }
 
         public async Task<int> GetParentCode(string parent, string child, int cod) {

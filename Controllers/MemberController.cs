@@ -17,6 +17,9 @@ namespace NuCloudWeb.Controllers {
         [Route("Member/Member/{ced:int}")]
         public async Task<ActionResult> Member([FromRoute] int ced) {
             Member t = await DB.Instance.GetMember(ced.ToString());
+            t.Leads = await DB.Instance.GetLeads(ced.ToString());
+            t.Coaches = await DB.Instance.GetCoaches(ced.ToString());
+            t.MemberOf = await DB.Instance.MemberOf(ced.ToString());
             return View(t);
         }
 
