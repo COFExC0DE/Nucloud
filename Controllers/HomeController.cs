@@ -37,7 +37,7 @@ namespace NuCloudWeb.Controllers {
         //Intance to call interface of cloud
         public IActionResult AddCloud(Cloud g) {
             DB.Instance.AddCloud(g);
-            return View();
+            return RedirectToAction("Organization", "Home");
         }
 
         //Instance that activate  an error
