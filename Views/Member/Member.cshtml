@@ -1,0 +1,87 @@
+﻿@model NuCloudWeb.Models.Member
+
+@{
+    ViewData["Title"] = "Member";
+}
+
+<h2>@String.Format("{0} {1}", Model.Name, Model.LastName)</h2>
+<style>
+    .flex_hor {
+        display: flex;
+        flex-direction: row;
+        margin-right: 5px;
+    }
+</style>
+<div class="login-box">
+    <div class="text-center">
+        <div class="flex_hor">
+            <h6>ID Number: </h6>
+            <p>@Model.Ced</p>
+        </div>
+        <div class="flex_hor">
+            <h6>Phone Number: </h6>
+            <p>@Model.Phone</p>
+        </div>
+        <div class="flex_hor">
+            <h6>Email: </h6>
+            <p>@Model.Email</p>
+        </div>
+    </div>
+    <div class="text-center">
+        <table class="border:1px solid black; center" style="border:1px solid black;margin-left:auto;margin-right:auto;">
+            <tr>
+            <thead>
+                <tr>
+                    <th scope="col">Member of:</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>
+                        @foreach (Node n in Model.MemberOf) {
+                            <p>@String.Format("{0} {1}", n.Cod, n.Name)</p>
+                        }
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center">
+        <table class="border:1px solid black; center" style="border:1px solid black;margin-left:auto;margin-right:auto;">
+            <tr>
+            <thead>
+                <tr>
+                    <th scope="col">Leader of:</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>
+                        @foreach (Node n in Model.Leads) {
+                            <p>@String.Format("{0} {1}", n.Cod, n.Name)</p>
+                        }
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center">
+        <table class="border:1px solid black; center" style="border:1px solid black;margin-left:auto;margin-right:auto;">
+            <tr>
+            <thead>
+                <tr>
+                    <th scope="col">Monitor of:</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>
+                        @foreach (Node n in Model.Coaches) {
+                            <p>@String.Format("{0} {1}", n.Cod, n.Name)</p>
+                        }
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
