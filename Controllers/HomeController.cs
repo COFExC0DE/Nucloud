@@ -20,6 +20,10 @@ namespace NuCloudWeb.Controllers {
             return View();
         }
 
+        public IActionResult News() {
+            return View();
+        }
+
         //Functions that get Clouds
         public async Task<ActionResult> Organization() {
             List<Cloud> t = await DB.Instance.GetClouds();
