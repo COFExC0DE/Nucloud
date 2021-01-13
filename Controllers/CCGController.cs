@@ -15,5 +15,21 @@ namespace NuCloudWeb.Controllers {
             // return View(t); 
             return View();
         }
+
+        [HttpGet]
+        [Route("CCG/Message/{cod:int}")]
+        //Interface for the Add Group view
+        public IActionResult Message([FromRoute] int cod) {
+            return View();
+        }
+
+        public void Download() {
+          
+        }
+
+        public void Report() {
+
+        }
+
     }
 }
