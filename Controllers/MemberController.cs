@@ -41,12 +41,33 @@ namespace NuCloudWeb.Controllers {
                     LastName = member.LastName,
                     Ced = member.Ced,
                     Phone = member.Phone,
-                    Password = member.Password,
-                    Username = member.Username
+                    Password = member.Password
                 });
             }            
             return View();
         }
 
+        [HttpGet]
+        //View to login member
+        public IActionResult LoginMember()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        //cuek
+        public IActionResult LoginMember(Member member)
+        {
+            long num = DB.Instance.CantMemberForCedAndPass(member.Ced, member.Password).Result;
+            if(num == 1)
+            {
+                System.Diagnostics.Debug.WriteLine("Caca");
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("Caca fallo");
+            }
+            return View();
+        }
     }
 }

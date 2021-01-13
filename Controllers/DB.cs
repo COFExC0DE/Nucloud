@@ -458,6 +458,23 @@ namespace NuCloudWeb.Controllers {
             return resultsAsync.Result.Single().Num;
         }
 
+        public async Task<long> CantMemberForCedAndPass(String ced, String pass)
+        {
+
+            await Client.ConnectAsync();
+
+            var resultsAsync = Client.Cypher
+                            .Match("(me:Miembro)")
+                            .Where((Member me) => me.Ced == ced)
+                            .AndWhere((Member me) => me.Password == pass)
+                            .Return((me) => new Res
+                            {
+                                Num = me.Count()
+                            })
+                            .ResultsAsync;
+            return resultsAsync.Result.Single().Num;
+        }
+
         public async Task<long> CantGroupForCod(int cod)
         {
             await Client.ConnectAsync();
