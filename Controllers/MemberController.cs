@@ -40,7 +40,9 @@ namespace NuCloudWeb.Controllers {
                     Name = member.Name,
                     LastName = member.LastName,
                     Ced = member.Ced,
-                    Phone = member.Phone
+                    Phone = member.Phone,
+                    Password = member.Password,
+                    Username = member.Username
                 });
             }            
             return View();
