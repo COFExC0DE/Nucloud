@@ -4,13 +4,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using NuCloudWeb.Models;
+using MongoDB.Driver.Linq;
 
 namespace NuCloudWeb.Controllers {
     public class Mongo {
         private static Mongo instance = null;
         public MongoClient Client;
         public MongoDatabaseBase DB;
-        public MongoCollectionBase<BsonDocument> Collection;
+        public MongoCollectionBase<Message> Messages;
+        public MongoCollectionBase<News> News;
 
         public static Mongo Instance {
             get {
@@ -20,15 +23,51 @@ namespace NuCloudWeb.Controllers {
             }
         }
 
-        public Mongo() {
+        public void Set() {
             Client = new MongoClient("mongodb+srv://nucloudtec:tec-nucloud@cluster0.vh5yq.mongodb.net/NuCloud?retryWrites=true&w=majority");
             DB = Client.GetDatabase("NuCloud") as MongoDatabaseBase;
-            Collection = DB.GetCollection<BsonDocument>("Messages") as MongoCollectionBase<BsonDocument>;
+            News = DB.GetCollection<News>("News") as MongoCollectionBase<News>;
+            Messages = DB.GetCollection<Message>("Messages") as MongoCollectionBase<Message>;
         }
 
-        public void InsertTest() {
-            var data = new BsonDocument { { "type", "Petitoria" }, { "sender", "yo" }, { "date", "1/1/2021" }, { "text", "Esta es una petitoria" } };
-            Collection.InsertOne(data);
+        public void InsertMessage(string type, string sender, string date, string subject, string text) {
+            Messages.InsertOne(new Message() {
+                Type = type,
+                Body = text,
+                Sender = sender,
+                Date = date,
+                Subject = subject
+            });
         }
+
+        public void InsertNews(string title, string date, string body, string sender) {
+            News.InsertOne(new News() {
+                Title = title,
+                Body = body,
+                Sender = sender,
+                Date = date
+            });
+        }
+
+        public List<Message> GetMessages() {
+            var messages = Messages.AsQueryable<Message>().ToList();
+            return messages;
+        }
+
+        public List<Message> GetMessagesType(string type) {
+            var messages = Messages.Find(x => x.Type == type).ToList();
+            return messages;
+        }
+
+        public Message getMessage(string id) {
+            var msg = Messages.Find(x => x.Id == id).ToList().First();
+            return msg;
+        }
+
+        public List<News> GetNews() {
+            var news = News.AsQueryable<News>().ToList();
+            return news;
+        }
+
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using NuCloudWeb.Models;
 
 namespace NuCloudWeb.Controllers {
     public class CCGController : Controller {
@@ -10,17 +11,17 @@ namespace NuCloudWeb.Controllers {
             return View();
         }
 
-        public async Task<ActionResult> Inbox() {
-            // get messages to show
-            // return View(t); 
-            return View();
+        public IActionResult Inbox() {
+            List<Message> t = Mongo.Instance.GetMessages();
+            return View(t);
         }
 
         [HttpGet]
-        [Route("CCG/Message/{cod:int}")]
-        //Interface for the Add Group view
-        public IActionResult Message([FromRoute] int cod) {
-            return View();
+        //Instance that return view 
+        [Route("CCG/Message/{id:int}")]
+        public IActionResult Message([FromRoute] int id) {
+            Message t = Mongo.Instance.getMessage(id.ToString());
+            return View(t);
         }
 
         public void Download() {

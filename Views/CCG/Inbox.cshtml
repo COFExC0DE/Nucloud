@@ -1,5 +1,45 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model List<NuCloudWeb.Models.Message>
+
 @{
+    ViewData["Title"] = "Inbox";
 }
+
+<style>
+    div {
+        padding: 0px;
+    }
+</style>
+<div class="text-center">
+    <div class="login-box">
+        <table class="border:1px solid black; center" style="border:1px solid black;margin-left:auto;margin-right:auto;">
+            <tr>
+            <thead>
+                <tr>
+                    <th scope="col">Inbox</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <a a class="nav-link text-dark" asp-area="" asp-controller="CCG" asp-action="Petitoria">
+                        <h6>Petition</h6>
+                    </a>
+                    <a a class="nav-link text-dark" asp-area="" asp-controller="CCG" asp-action="Petitoria">
+                        <h6>Petition</h6>
+                    </a>
+                </tr>
+                <tr>
+                    <th>
+                        @foreach (Message m in Model) {
+                            <a a class="nav-link text-dark" asp-area="" asp-controller="CCG" asp-action="Message" asp-route-id="@m.Id">
+                                @String.Format("{0} {1}", m.Sender, m.Subject)
+                            </a>}
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
