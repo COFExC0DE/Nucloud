@@ -20,20 +20,31 @@
             </thead>
             <tbody>
                 <tr>
-                    <a a class="nav-link text-dark" asp-area="" asp-controller="CCG" asp-action="Petitoria">
-                        <h6>Petition</h6>
+                    <a class="nav-link text-dark" asp-area="" asp-controller="CCG" asp-action="Filter" asp-route-id="all">
+                        All
                     </a>
-                    <a a class="nav-link text-dark" asp-area="" asp-controller="CCG" asp-action="Petitoria">
-                        <h6>Petition</h6>
+                    <a class="nav-link text-dark" asp-area="" asp-controller="CCG" asp-action="Filter" asp-route-id="petition">
+                        Petition
+                    </a>
+                    <a class="nav-link text-dark" asp-area="" asp-controller="CCG" asp-action="Filter" asp-route-id="congratulate">
+                        Congratulation
+                    </a>
+                    <a class="nav-link text-dark" asp-area="" asp-controller="CCG" asp-action="Filter" asp-route-id="offer">
+                        Offering
                     </a>
                 </tr>
                 <tr>
                     <th>
                         @foreach (Message m in Model) {
-                            <a a class="nav-link text-dark" asp-area="" asp-controller="CCG" asp-action="Message" asp-route-id="@m.Id">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="CCG" asp-action="Mail" asp-route-id="@m.Id">
                                 @String.Format("{0} {1}", m.Sender, m.Subject)
                             </a>}
                     </th>
+                </tr>
+                <tr>
+                    <a class="nav-link text-dark" asp-area="" asp-controller="CCG" asp-action="Report">
+                        Generate report
+                    </a>
                 </tr>
             </tbody>
         </table>

@@ -1,0 +1,35 @@
+﻿@model NuCloudWeb.Models.Message
+
+@{
+    ViewData["Title"] = "Message";
+}
+
+<style>
+    .flex_hor {
+        display: flex;
+        flex-direction: row;
+        margin-right: 5px;
+    }
+</style>
+
+<div class="login-box">
+    <div class="text-center">
+        <div class="flex_hor">
+            <h5>@Model.Type</h5>
+        </div>
+        <div class="flex_hor">
+            <h3>@Model.Subject</h3>
+        </div>
+        <div class="flex_hor">
+            <h6>Sender: </h6>
+            <p>@Model.Sender</p>
+        </div>
+        <div class="flex_hor">
+            <h6>Date: </h6>
+            <p>@Model.Date</p>
+        </div>
+        <div class="flex_hor">
+            <p>@Model.Body</p>
+        </div>
+    </div>
+</div>

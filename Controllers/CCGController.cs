@@ -18,18 +18,43 @@ namespace NuCloudWeb.Controllers {
 
         [HttpGet]
         //Instance that return view 
-        [Route("CCG/Message/{id:int}")]
-        public IActionResult Message([FromRoute] int id) {
-            Message t = Mongo.Instance.getMessage(id.ToString());
+        [Route("CCG/Mail/{id}")]
+        public IActionResult Mail([FromRoute] string id) {
+            Message t = Mongo.Instance.GetMessage(id.ToString());
             return View(t);
         }
 
-        public void Download() {
-          
+        public IActionResult Report() {
+            int pet = Mongo.Instance.GetMessageCount("petition");
+            int con = Mongo.Instance.GetMessageCount("congratulate");
+            int of = Mongo.Instance.GetMessageCount("offer");
+            string text = "";
+            string date = DateTime.Now.ToString("dd/MM/yyyy");
+            if (of + con + pet > 0) {
+                text = String.Format("This month we got {0} contributions of which {1} are petitions, {2} are congratulations and {3} are offers.", (pet + con + of), pet, con, of);          
+            } else {
+                text = "This month there were no contributions";
+            }
+            Mongo.Instance.ClearInbox();
+            Mongo.Instance.InsertNews(String.Format("{0} report", date), date, text, "Nucloud Team");         
+            return RedirectToAction("Inbox", "CCG");
         }
 
-        public void Report() {
+        [HttpGet]
+        public IActionResult Write() {
+            return View();
+        }
 
+        [HttpPost]
+        public IActionResult Write(Message msg) {
+            Mongo.Instance.InsertMessage(new Message() {
+                Subject = msg.Subject,
+                Body = msg.Body,
+                Date = DateTime.Now.ToString("dd/MM/yyyy"),
+                Type = msg.Type,
+                Sender = "None"
+            });
+            return RedirectToAction("Index", "Home");
         }
 
     }

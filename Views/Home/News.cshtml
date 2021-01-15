@@ -1,5 +1,40 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model List<NuCloudWeb.Models.News>
+
 @{
+    ViewData["Title"] = "News";
 }
+
+<style>
+    div {
+        padding: 0px;
+    }
+</style>
+<div class="text-center">
+    <div class="login-box">
+        <table class="border:1px solid black; center" style="border:1px solid black;margin-left:auto;margin-right:auto;">
+            <tr>
+            <thead>
+                <tr>
+                    <th scope="col">News</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>
+                        @foreach (News m in Model) {
+                            <div>
+                                <h3>@m.Title</h3>
+                                <h6>@String.Format("{0} {1}", m.Sender, m.Date)</h6>
+                                <p>@m.Body</p>
+                            </div>
+                           }
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+

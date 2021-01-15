@@ -21,7 +21,8 @@ namespace NuCloudWeb.Controllers {
         }
 
         public IActionResult News() {
-            return View();
+            List<News> news = Mongo.Instance.GetNews();
+            return View(news);
         }
 
         //Functions that get Clouds

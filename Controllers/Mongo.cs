@@ -30,14 +30,8 @@ namespace NuCloudWeb.Controllers {
             Messages = DB.GetCollection<Message>("Messages") as MongoCollectionBase<Message>;
         }
 
-        public void InsertMessage(string type, string sender, string date, string subject, string text) {
-            Messages.InsertOne(new Message() {
-                Type = type,
-                Body = text,
-                Sender = sender,
-                Date = date,
-                Subject = subject
-            });
+        public void InsertMessage(Message m) {
+            Messages.InsertOneAsync(m);
         }
 
         public void InsertNews(string title, string date, string body, string sender) {
@@ -59,7 +53,16 @@ namespace NuCloudWeb.Controllers {
             return messages;
         }
 
-        public Message getMessage(string id) {
+        public void ClearInbox() {
+            Messages.DeleteMany(x => x.Id != null);
+        }
+
+        public int GetMessageCount(string type) {
+            var messages = Messages.Find(x => x.Type == type).ToList();
+            return messages.Count;
+        }
+
+        public Message GetMessage(string id) {
             var msg = Messages.Find(x => x.Id == id).ToList().First();
             return msg;
         }
