@@ -13,8 +13,15 @@ namespace NuCloudWeb.Controllers {
             return View();
         }
 
-        public IActionResult Inbox() {
-            List<Message> t = Mongo.Instance.GetMessages();
+        [HttpGet]
+        //Instance that return view 
+        [Route("CCG/Inboex/{filter}")]
+        public IActionResult Inbox([FromRoute] string filter) {
+            List<Message> t;
+            if (filter != "all")
+                t = Mongo.Instance.GetMessagesType(filter);
+            else
+                t = Mongo.Instance.GetMessages();
             return View(t);
         }
 
@@ -38,12 +45,12 @@ namespace NuCloudWeb.Controllers {
                 text = "This month there were no contributions";
             }
             Mongo.Instance.InsertNews(String.Format("{0} report", date), date, text, "Nucloud Team");         
-            return RedirectToAction("Inbox", "CCG");
+            return RedirectToAction("Inbox", "CCG", new { filter = "all" });
         }
 
         public IActionResult Clear() {
             Mongo.Instance.ClearInbox();
-            return RedirectToAction("Inbox", "CCG");
+            return RedirectToAction("Inbox", "CCG", new { filter = "all" });
         }
 
         [HttpGet]
