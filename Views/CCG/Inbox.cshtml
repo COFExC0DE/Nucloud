@@ -34,17 +34,22 @@
                     </a>
                 </tr>
                 <tr>
+                    <a class="nav-link text-dark" asp-area="" asp-controller="CCG" asp-action="Report">
+                        Report
+                    </a>
+                </tr>
+                <tr>
+                    <a class="nav-link text-dark" asp-area="" asp-controller="CCG" asp-action="Report">
+                        Clear
+                    </a>
+                </tr>
+                <tr>
                     <th>
                         @foreach (Message m in Model) {
                             <a class="nav-link text-dark" asp-area="" asp-controller="CCG" asp-action="Mail" asp-route-id="@m.Id">
                                 @String.Format("{0} {1}", m.Sender, m.Subject)
                             </a>}
                     </th>
-                </tr>
-                <tr>
-                    <a class="nav-link text-dark" asp-area="" asp-controller="CCG" asp-action="Report">
-                        Generate report
-                    </a>
                 </tr>
             </tbody>
         </table>

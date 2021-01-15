@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NuCloudWeb.Models;
@@ -35,8 +37,12 @@ namespace NuCloudWeb.Controllers {
             } else {
                 text = "This month there were no contributions";
             }
-            Mongo.Instance.ClearInbox();
             Mongo.Instance.InsertNews(String.Format("{0} report", date), date, text, "Nucloud Team");         
+            return RedirectToAction("Inbox", "CCG");
+        }
+
+        public IActionResult Clear() {
+            Mongo.Instance.ClearInbox();
             return RedirectToAction("Inbox", "CCG");
         }
 
