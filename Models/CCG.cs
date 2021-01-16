@@ -11,24 +11,24 @@ namespace NuCloudWeb.Models {
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
         [BsonElement("date")]
-        public string Date;
+        public string Date { get; set; }
         [BsonElement("sender")]
-        public string Sender;
+        public string Sender { get; set; }
         [BsonElement("body")]
-        public string Body;
+        public string Body { get; set; }
     }
 
     [BsonIgnoreExtraElements]
     public class Message : CCG {
         [BsonElement("type")]
-        public string Type;
+        public string Type { get; set; }
         [BsonElement("subject")]
-        public string Subject;
+        public string Subject { get; set; }
     }
 
     [BsonIgnoreExtraElements]
     public class News : CCG {
         [BsonElement("title")]
-        public string Title;
+        public string Title { get; set; }
     }
 }
