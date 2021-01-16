@@ -1,12 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Neo4j.Driver;
 using NuCloudWeb.Models;
 
 namespace NuCloudWeb.Controllers {
+
+    [Authorize]
+
     public class MemberController : Controller {
         public IActionResult Index() {
             return View();
@@ -47,27 +54,5 @@ namespace NuCloudWeb.Controllers {
             return View();
         }
 
-        [HttpGet]
-        //View to login member
-        public IActionResult LoginMember()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        //cuek
-        public IActionResult LoginMember(Member member)
-        {
-            long num = DB.Instance.CantMemberForCedAndPass(member.Ced, member.Password).Result;
-            if(num == 1)
-            {
-                System.Diagnostics.Debug.WriteLine("Caca");
-            }
-            else
-            {
-                System.Diagnostics.Debug.WriteLine("Caca fallo");
-            }
-            return View();
-        }
     }
 }
