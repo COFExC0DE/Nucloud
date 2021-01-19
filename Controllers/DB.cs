@@ -623,5 +623,82 @@ namespace NuCloudWeb.Controllers {
             }
             return code[0];
         }
+        
+        
+        public async Task<List<Member>> GetObserver(int id, string node)
+        {
+            IResultCursor cursor;
+            var member = new List<Member>();
+            IAsyncSession session = DB.Instance.Driver.AsyncSession();
+            try
+            {
+                //List<string> emailMonitor = await session.RunAsync(@"MATCH(me:Miembro)-[:MonitorOf]->(gr:Grupo) where me.Ced = {0} RETURN me.Email", id));
+                cursor = await session.RunAsync(String.Format(@"MATCH (a:Miembro)-[:MemberOf]->(gr:{0}) where gr.Cod = {1} RETURN a.Name, a.LastName, a.Phone, a.Email, a.Ced", node, id));
+                member = await cursor.ToListAsync(record => new Member()
+                {
+                    Name = record["a.Name"].As<string>(),
+                    LastName = record["a.LastName"].As<string>(),
+                    Phone = Int32.Parse(record["a.Phone"].As<string>()),
+                    Email = record["a.Email"].As<string>(),
+                    Ced = record["a.Ced"].As<string>()
+                });
+            }
+            finally
+            {
+                await session.CloseAsync();
+            }
+            return member;
+        }
+
+        public async void SendObserver(int id, string node, string msj)
+        {
+            IResultCursor cursor;
+            IResultCursor cursor2;
+            var member = new List<Member>();
+            var member2 = new List<Member>();
+            IAsyncSession session = DB.Instance.Driver.AsyncSession();
+            await Client.ConnectAsync();
+            
+            cursor2 = await session.RunAsync(String.Format(@"MATCH(me:Miembro)-[:MonitorOf]->(gr:Grupo) WHERE me.Ced = '2'  RETURN me.Email"));
+            member2 = await cursor2.ToListAsync(record => new Member()
+            {
+                Email = record["me.Email"].As<string>()
+            });
+
+            cursor = await session.RunAsync(String.Format(@"MATCH (a:Miembro)-[:MemberOf]->(gr:{0}) WHERE gr.Cod = {1} RETURN a.Email", node, id));
+            member = await cursor.ToListAsync(record => new Member()
+            {
+                Email = record["a.Email"].As<string>()
+            });
+            Debug.WriteLine("Mensaje:"+msj);
+            if (0 < member2.Count) { Debug.WriteLine("Monitor: " + member2[0].Email); }
+            if (0 < member.Count) {
+
+                foreach (var student in member) {
+                    Debug.WriteLine("Student's:" + student.Email);
+                }
+            }
+
+
+            string to = "guzbol@jetmail.uno";
+            string from = "kaztof@jetmail.uno";
+            MailMessage message = new MailMessage(from, to);
+            message.Subject = "Nucloud";
+            message.Body = @""+msj;
+            SmtpClient client = new SmtpClient("smtp.jetmail.uno", 587);
+            // Credentials are necessary if the server requires the client
+            // to authenticate before it will send email on the client's behalf.
+            client.UseDefaultCredentials = false;
+
+            try
+            {
+                client.Send(message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Exception caught in CreateTestMessage2(): {0}", ex.ToString());
+            }
+
+        }
     }
 }
