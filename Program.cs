@@ -11,7 +11,6 @@ using NuCloudWeb.Controllers;
 namespace NuCloudWeb {
     public class Program {
         public static void Main(string[] args) {
-            //caca
             DB.Instance.SetDriver("bolt://54.197.89.156:34831", "neo4j", "nods-leadership-resistor");
             CreateHostBuilder(args).Build().Run();
         }
