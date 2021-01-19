@@ -1,0 +1,22 @@
+﻿@model NuCloudWeb.Controllers.Chanchito
+
+@{
+    ViewData["Title"] = "Observer";
+}
+<style>
+    div {
+        padding: 10px;
+    }
+</style>
+<div class="login-box">
+    <div class="text-center user-box">
+
+        @using (Html.BeginForm("Observer", "Group", FormMethod.Post))
+        {
+            <br />
+            <br />
+            @Html.TextBoxFor(m => m.Ced, new { @class = "form-control" })
+            <input type="submit" value="Create" />
+        }
+    </div>
+</div>
