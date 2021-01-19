@@ -1,0 +1,14 @@
+﻿@model NuCloudWeb.Controllers.Chanchito
+
+@{
+    ViewData["Title"] = "AssignLeader";
+}
+
+<div class="login-box">
+    <div class="text-center user-box">
+        @using (Html.BeginForm("AssignLeader", "Branch", FormMethod.Post))
+        {
+        @Html.DropDownListFor(m => m.Ced, Model.Members.Select(x => new SelectListItem { Text = String.Format("{0} {1}", x.Name, x.LastName), Value = x.Ced }), "Select Item", new { @class = "form-control" })
+                <br/><br/><input type="submit" value="Assign" />}
+    </div>
+<div>

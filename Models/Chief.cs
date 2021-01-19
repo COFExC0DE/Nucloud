@@ -2,7 +2,7 @@
 
 namespace NuCloudWeb.Models {
     public class Chief : Person {
-        public DateTime Start { get; set; }
-        public DateTime End { get; set; }
+        public string Start { get; set; }
+        public string End { get; set; }
     }
 }
