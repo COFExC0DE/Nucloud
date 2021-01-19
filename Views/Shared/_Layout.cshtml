@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using NuCloudWeb.Helper
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -44,12 +46,29 @@
                 </div>
             </nav>
         </header>
+		
+		
         <div class="container">
             <main role="main" class="pb-3">
                 @RenderBody()
             </main>
         </div>
 
+		@if (User.Identity.IsAuthenticated)
+		{
+		    <div class="alert alert-info">
+				Usuario Autenticado:
+				<ul>
+					<li> @SessionHelper.GetNameIdentifier(User) </li>
+				    <li> @SessionHelper.GetName(User) </li>
+				</ul>
+			</div>
+		}else{
+		    <div class="alert-danger">
+				Usuario no identificado
+			</div>
+		}
+			
         <footer class="border-top footer text-muted">
             <div class="container">
                 &copy; 2020 - NuCloudWeb - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
