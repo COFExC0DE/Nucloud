@@ -38,13 +38,14 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="AddMember">Create Members</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="CCG" asp-action="Inbox" asp-route-filter="all">Inbox</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="CCG" asp-action="Write">Write contribution</a>
-                            </li>
+
 							@if (User.Identity.IsAuthenticated){
+							    <li class="nav-item">
+								    <a class="nav-link text-dark" asp-area="" asp-controller="CCG" asp-action="Inbox" asp-route-filter="all">Inbox</a>
+							    </li>
+							    <li class="nav-item">
+								    <a class="nav-link text-dark" asp-area="" asp-controller="CCG" asp-action="Write">Write contribution</a>
+							    </li>
 							    <li class="nav-item">
 							        <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="LogOut">LogOut</a>
 						        </li>

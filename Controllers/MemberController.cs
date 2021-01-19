@@ -12,7 +12,7 @@ using NuCloudWeb.Models;
 
 namespace NuCloudWeb.Controllers {
 
-    [Authorize]
+    //[Authorize]
 
     public class MemberController : Controller {
         public IActionResult Index() {
