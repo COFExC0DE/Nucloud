@@ -27,6 +27,17 @@ namespace NuCloudWeb.Helper
             return r == null ? "" : r.Value;
         }
 
+        public static string GetSurname(IPrincipal User)
+        {
+            var r = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Surname);
+            return r == null ? "" : r.Value;
+        }
+
+        public static string GetEmail(IPrincipal User)
+        {
+            var r = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Email);
+            return r == null ? "" : r.Value;
+        }
 
 
     }

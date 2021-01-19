@@ -36,6 +36,8 @@ namespace NuCloudWeb.Controllers
                 var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);
                 identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, member.Ced.ToString()));
                 identity.AddClaim(new Claim(ClaimTypes.Name, miembro.Result.Name));
+                identity.AddClaim(new Claim(ClaimTypes.Surname, miembro.Result.LastName));
+                identity.AddClaim(new Claim(ClaimTypes.Email, miembro.Result.Email is null ? "" : miembro.Result.Email));
                 var principal = new ClaimsPrincipal(identity);
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal,
                     new AuthenticationProperties { ExpiresUtc = DateTime.Now.AddDays(1), IsPersistent = true });
