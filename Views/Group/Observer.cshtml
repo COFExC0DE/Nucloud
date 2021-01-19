@@ -1,4 +1,4 @@
-﻿@model NuCloudWeb.Controllers.Chanchito
+@model NuCloudWeb.Controllers.Chanchito
 
 @{
     ViewData["Title"] = "Observer";
@@ -10,6 +10,11 @@
 </style>
 <div class="login-box">
     <div class="text-center user-box">
+
+        <select>
+            <option value="Group">Group</option>
+            <option value="Rama">Branch</option>
+        </select>
 
         @using (Html.BeginForm("Observer", "Group", FormMethod.Post))
         {
