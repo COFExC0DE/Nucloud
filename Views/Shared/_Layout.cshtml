@@ -38,9 +38,21 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="CCG" asp-action="Inbox">CCG Inbox</a>
                             </li>
-							<li class="nav-item">
+							@if (User.Identity.IsAuthenticated){
+							    <div style="text-align:right">
+		                        <li style="text-align:right" class="alert alert-info">
+				                    Usuario Autenticado:
+				                    <ul>
+				                        <li> @SessionHelper.GetName(User) </li>
+				                    </ul>
+			                    </li>
+								</div>
+		                    }else{
+		                        <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="LoginMember">Login</a>
-                            </li>
+                                </li>
+		                    }
+							
                         </ul>
                     </div>
                 </div>
@@ -53,21 +65,6 @@
                 @RenderBody()
             </main>
         </div>
-
-		@if (User.Identity.IsAuthenticated)
-		{
-		    <div class="alert alert-info">
-				Usuario Autenticado:
-				<ul>
-					<li> @SessionHelper.GetNameIdentifier(User) </li>
-				    <li> @SessionHelper.GetName(User) </li>
-				</ul>
-			</div>
-		}else{
-		    <div class="alert-danger">
-				Usuario no identificado
-			</div>
-		}
 			
         <footer class="border-top footer text-muted">
             <div class="container">
