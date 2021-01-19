@@ -10,6 +10,28 @@ namespace NuCloudWeb.Controllers {
         public IActionResult Index() {
             return View();
         }
+        
+        [HttpPost]
+        //Instance to add member to a group
+        [Route("Group/Observer/{cod:int}")]
+        public IActionResult Observer([FromRoute] int cod, Chanchito c)
+        {
+            DB.Instance.SendObserver(cod, "Rama", c.Ced);
+            return RedirectToAction("Group", "Group", new { cod = cod });
+        }
+
+        [HttpGet]
+        //Instance to call the view
+        [Route("Group/Observer/{cod:int}")]
+        public async Task<ActionResult> Observer([FromRoute] int cod)
+        {
+            List<Member> t = await DB.Instance.GetObserver(cod, "Rama");
+            Chanchito chanchito = new Chanchito()
+            {
+                Members = t
+            };
+            return View(chanchito);
+        }
 
         [HttpGet]
         //Instance to call the view
