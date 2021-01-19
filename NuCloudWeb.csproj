@@ -16,4 +16,8 @@
     <PackageReference Include="Neo4jClient" Version="4.0.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\SendMessages\" />
+  </ItemGroup>
+
 </Project>
