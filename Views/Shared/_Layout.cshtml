@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using NuCloudWeb.Helper
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -42,17 +44,37 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="CCG" asp-action="Write">Write contribution</a>
                             </li>
+							@if (User.Identity.IsAuthenticated){
+							    <li class="nav-item">
+							        <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="LogOut">LogOut</a>
+						        </li>
+							    <br />
+		                        <li style="text-align:right">
+				                    Usuario Autenticado:
+				                    <ul>
+				                        <li> @SessionHelper.GetName(User) @SessionHelper.GetSurname(User)</li>
+				                    </ul>
+			                    </li>
+							    
+		                    }else{
+		                        <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="LoginMember">Login</a>
+                                </li>
+		                    }
+							
                         </ul>
                     </div>
                 </div>
             </nav>
         </header>
+		
+		
         <div class="container">
             <main role="main" class="pb-3">
                 @RenderBody()
             </main>
         </div>
-
+			
         <footer class="border-top footer text-muted">
             <div class="container">
                 &copy; 2020 - NuCloudWeb - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>

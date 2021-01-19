@@ -1,12 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Neo4j.Driver;
 using NuCloudWeb.Models;
 
 namespace NuCloudWeb.Controllers {
+
+    [Authorize]
+
     public class MemberController : Controller {
         public IActionResult Index() {
             return View();
@@ -40,7 +47,8 @@ namespace NuCloudWeb.Controllers {
                     Name = member.Name,
                     LastName = member.LastName,
                     Ced = member.Ced,
-                    Phone = member.Phone
+                    Phone = member.Phone,
+                    Password = member.Password
                 });
             }            
             return View();

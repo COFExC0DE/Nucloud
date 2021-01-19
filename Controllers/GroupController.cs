@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NuCloudWeb.Models;
 
 namespace NuCloudWeb.Controllers {
+
+    //[Authorize]
+
     public class GroupController : Controller {
         public IActionResult Index() {
             return View();
